@@ -1,0 +1,11 @@
++ linea 
+1.01 animar
+( ) 5
+    objeto
+graficar    linea
+curva
++
+- rojo azul
+amarillo animar
+curva circulo
+linea 
