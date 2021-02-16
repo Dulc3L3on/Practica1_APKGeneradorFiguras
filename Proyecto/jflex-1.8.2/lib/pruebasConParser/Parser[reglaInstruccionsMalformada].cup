@@ -20,12 +20,13 @@ precedence left SUM, RES;
 precedence left MULT, DIV;
 
 start with instruccion;
-instruccion ::= graficar animar instruccion
-             |
+
+instruccion ::= graficar instruccion
+             | animar
              ;
 
 graficar ::= GRAFICAR tipo
-            /*aquí iba el error*/
+          | error
           ;
 
 tipo ::= CIRCULO cuatroParam
@@ -65,14 +66,12 @@ valorNumerico ::= valorNumerico SUM valorNumerico           /*axn: se envía el 
                 ;/*no incluí el operador unario "-"" porque no tendría mucho sentido xD :v*/
 
 animar ::= ANIMAR OBJETO ANTERIOR tresParam     /*axn: nada que hacer*/
-        |
-                                        /*aquí iba el error; axn: enviar el tipo de error al método de errores general*/
+        | error                                 /*axn: enviar el tipo de error al método de errores general*/
         ;/*[mejor que si se quede y qye se eli de la producción general...]recuerda que eliminaste el NT instrucción para recuperación, puesto que CUP intentará recuperarse con cualquiera de las producciones del NT que lo contiene,
            y si no llegara a funcionar bien así, entonces coloca "graficar", pues no debería de buscar recuperarme con otra animación, por el hecho de que nunca debería ser
            lo que viniera al principio...*/
         
 
 
-/*este es el correcto, xD sii funciona xD uuu gracias DIOS xD*/
-/*de esta forma habrá que ver cómo se enviarán los errore por no venir "graficar" o "animar" "objeto""antetior" puesto que para ello estaban esas producciones de error*/
+
 /*recuerda que debes averiguar como hacer la eqq para el E: será con los espacios en blanco " "/t/f ??? o habrá que hace ralgo más, o habrá que cb la grám :| xD*/
