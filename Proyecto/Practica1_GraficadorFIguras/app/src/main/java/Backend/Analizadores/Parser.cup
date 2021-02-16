@@ -1,8 +1,9 @@
+package Backend.Analizadores;
 import java_cup.runtime.*;
 
 class parser_Figuras;
 parser code{:
-    public parser (lexer_Figuras lexer){//Esto no es necesario pues el lexer.java extiende de Scanner
+    public parser_Figuras (lexer_Figuras lexer){//Esto no es necesario pues el lexer.java extiende de Scanner
         super(lexer);
     }
 

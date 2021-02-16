@@ -1,3 +1,4 @@
+package Backend.Analizadores;
 import java_cup.runtime.*;
 
 %%
@@ -21,7 +22,7 @@ espacioEnBlanco = {finDeLinea} | {tabulacion}
         return new Symbol(tipo, yyline+1, yycolumn+1);
     }
 
-    private Symbol symbol(int type, Object value) {
+    private Symbol symbol(int tipo, Object value) {
         return new Symbol(tipo, yyline+1, yycolumn+1, value);
     }
 
@@ -29,12 +30,23 @@ espacioEnBlanco = {finDeLinea} | {tabulacion}
         lexemaAnterior = anterior;
     }
 
-    private String esAnimacion(){//esto lo hago así por el hecho de que cuando la instrucc esté bien, debería ser así xD
+    private int esAnimacion(){//esto lo hago así por el hecho de que cuando la instrucc esté bien, debería ser así xD
         if(lexemaAnterior.equals("graficar")){
-            return "LINEA";
+            return 7;
         }
-        return "ANIMACION";
+        return 2;
     }
+
+     private int darCodificacionFigura(){
+            if(yytext().equals("cuadrado")){
+              return 5;
+            }else if(yytext().equals("circulo")){
+              return 4;
+            }else if(yytext().equals("rectangulo")){
+              return 6;
+            }
+            return 8;
+        }
 %}
 
 
@@ -46,7 +58,7 @@ espacioEnBlanco = {finDeLinea} | {tabulacion}
 <YYINITIAL> "amarillo" | "azul"| "cafe"| "morado"| "naranja"| "negro"| "rojo"| "verde"        {anadirLexemaAnterior(yytext());
                                                                                                 return symbol(COLOR, yytext());}
 <YYINITIAL> "circulo" | "cuadrado"| "rectangulo"| "poligono"                                  {anadirLexemaAnterior(yytext());
-                                                                                                return symbol(yytext().toUpperCase(), yytext());}/*si da error es por la falta del import de java.lang...*/
+                                                                                                return symbol(darCodificacionFigura(), yytext());}/*si da error es por la falta del import de java.lang...*/
 <YYINITIAL> "linea"                                                                           {return symbol(esAnimacion(), yytext());}
 <YYINITIAL> "graficar"                                                                        {anadirLexemaAnterior(yytext());
                                                                                                 return symbol(GRAFICAR, yytext());}

@@ -3,6 +3,7 @@ package Backend.Analizadores;// DO NOT EDIT
 // source: jflex-1.8.2/lib/lexer.jflex
 
 import java_cup.runtime.*;
+import static Backend.Analizadores.parser_FigurasSym.*;
 
 
 // See https://github.com/jflex-de/jflex/issues/222
@@ -320,7 +321,7 @@ public class lexer_Figuras implements java_cup.runtime.Scanner {
         return new Symbol(tipo, yyline+1, yycolumn+1);
     }
 
-    private Symbol symbol(int type, Object value) {
+    private Symbol symbol(int tipo, Object value) {
         return new Symbol(tipo, yyline+1, yycolumn+1, value);
     }
 
@@ -328,11 +329,22 @@ public class lexer_Figuras implements java_cup.runtime.Scanner {
         lexemaAnterior = anterior;
     }
 
-    private String esAnimacion(){//esto lo hago así por el hecho de que cuando la instrucc esté bien, debería ser así xD
+    private int esAnimacion(){//esto lo hago así por el hecho de que cuando la instrucc esté bien, debería ser así xD
         if(lexemaAnterior.equals("graficar")){
-            return "LINEA";
+            return 7;
         }
-        return "ANIMACION";
+        return 2;
+    }
+
+    private int darCodificacionFigura(){
+        if(yytext().equals("cuadrado")){
+          return 5;
+        }else if(yytext().equals("circulo")){
+          return 4;
+        }else if(yytext().equals("rectangulo")){
+          return 6;
+        }
+        return 8;
     }
 
 
@@ -737,7 +749,7 @@ public class lexer_Figuras implements java_cup.runtime.Scanner {
       if (zzInput == YYEOF && zzStartRead == zzCurrentPos) {
         zzAtEOF = true;
             zzDoEOF();
-          { return new java_cup.runtime.Symbol(sym.EOF); }
+          { return new java_cup.runtime.Symbol(parser_FigurasSym.EOF); }
       }
       else {
         switch (zzAction < 0 ? zzAction : ZZ_ACTION[zzAction]) {
@@ -812,7 +824,7 @@ public class lexer_Figuras implements java_cup.runtime.Scanner {
           case 25: break;
           case 12:
             { anadirLexemaAnterior(yytext());
-                                                                                                return symbol(yytext().toUpperCase(), yytext());
+                                                                                                return symbol(darCodificacionFigura(), yytext());
             }
             // fall through
           case 26: break;
