@@ -1,6 +1,4 @@
-package Backend.Figuras;
-
-import android.graphics.Color;
+package Backend.Entidades.Figuras;
 
 import Backend.Animacion.Animacion;
 
@@ -8,13 +6,16 @@ public class Figura {
     public double posicionInicialX;
     public double posicionInicialY;
     public Animacion animacion;
-    public Color color;
+    public int color;
 
-    public Figura(double posicionX, double posicionY, Animacion laAnimacion, Color elColor){
+    public Figura(double posicionX, double posicionY,int elColor){
         posicionInicialX = posicionX;
         posicionInicialY = posicionY;
-        animacion = laAnimacion;
         color = elColor;
+    }
+
+    public void establecerAnimacion(Animacion laAnimacion){
+        animacion= laAnimacion;
     }
 
     public double darPosicionInicialX(){

@@ -1,4 +1,4 @@
-package Backend.Herramientas;
+package Backend.EstructurasDeDatos;
 
 public class Pila <T> {//no es necesaria su existencia, pero se imagina mejor teniendo en mente una pila :v xD
     private ListaEnlazada<T> elementosPila;//xD

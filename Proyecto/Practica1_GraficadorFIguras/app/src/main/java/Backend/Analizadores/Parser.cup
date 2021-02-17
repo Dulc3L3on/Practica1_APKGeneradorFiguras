@@ -20,7 +20,7 @@ non terminal instruccion, graficar, tipo, tresParam, cuatroParam, cincoParam, se
 precedence left SUM, RES;
 precedence left MULT, DIV;
 
-start with instruccion;
+start with instruccion;/*esta nueva forma de instrucción hará que no tenga que preocuparme por el arreglo que almacena los valores numéricos, puesto que la animación lo requerirá luego de haberse empleado los datos que se habían almacenado dentro de sí xD*/
 instruccion ::= graficar animar instruccion
              |
              ;
@@ -29,7 +29,7 @@ graficar ::= GRAFICAR tipo
             /*aquí iba el error*/
           ;
 
-tipo ::= CIRCULO cuatroParam
+tipo ::= CIRCULO cuatroParam /*se crea la figura, mejor de una vez aquí, pues en este punto todo ya ha salido bien...*/
         | CUADRADO cuatroParam
         | RECTANGULO cincoParam
         | LINEA cincoParam
@@ -37,7 +37,7 @@ tipo ::= CIRCULO cuatroParam
         | error
         ;
 
-tresParam ::= APER valorNumerico COMA valorNumerico COMA ANIMACION CIER
+tresParam ::= APER valorNumerico COMA valorNumerico COMA ANIMACION CIER /*En cada producción de los parám, se hará la instanciación de las figuras que corrspondan y la add en el caso de esta prod...*/
             | error CIER
             ;
 
@@ -65,7 +65,7 @@ valorNumerico ::= valorNumerico SUM valorNumerico           /*axn: se envía el 
                   COMA*/
                 ;/*no incluí el operador unario "-"" porque no tendría mucho sentido xD :v*/
 
-animar ::= ANIMAR OBJETO ANTERIOR tresParam     /*axn: nada que hacer*/
+animar ::= ANIMAR OBJETO ANTERIOR tresParam     /*axn: se agrega la animación a la figura*/
         |
                                         /*aquí iba el error; axn: enviar el tipo de error al método de errores general*/
         ;/*[mejor que si se quede y qye se eli de la producción general...]recuerda que eliminaste el NT instrucción para recuperación, puesto que CUP intentará recuperarse con cualquiera de las producciones del NT que lo contiene,

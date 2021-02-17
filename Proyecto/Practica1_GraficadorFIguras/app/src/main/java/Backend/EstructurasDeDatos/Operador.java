@@ -1,7 +1,4 @@
-package Backend.Herramientas;
-
-import Backend.Figuras.Circulo;
-import Backend.Figuras.Figura;
+package Backend.EstructurasDeDatos;
 
 public class Operador {
     private double parametrosNumericos[] = new double[6];

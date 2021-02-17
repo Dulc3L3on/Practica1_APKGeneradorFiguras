@@ -1,4 +1,4 @@
-package Backend.Herramientas;
+package Backend.EstructurasDeDatos;
 
 public class ListaEnlazada <E>{
     private int tamanio = 0;

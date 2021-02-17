@@ -1,16 +1,12 @@
-package Backend.Figuras;
-
-import android.graphics.Color;
-
-import Backend.Animacion.Animacion;
+package Backend.Entidades.Figuras;
 
 public class Linea extends Figura{
     private double posicionFinalX;
     private double posicionFinalY;
 
-    public Linea(double posicionInicialX, double posicionInicialY, Animacion animacion, Color color,
-                 double laPosicionFinalX, double laPosicionFinalY){
-        super(posicionInicialX, posicionInicialY, animacion, color);
+    public Linea(double posicionInicialX, double posicionInicialY, double laPosicionFinalX,
+                 double laPosicionFinalY, int color){
+        super(posicionInicialX, posicionInicialY, color);
 
         posicionFinalX = laPosicionFinalX;
         posicionFinalY = laPosicionFinalY;

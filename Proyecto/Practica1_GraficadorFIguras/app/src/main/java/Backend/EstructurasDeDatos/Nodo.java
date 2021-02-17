@@ -1,4 +1,4 @@
-package Backend.Herramientas;
+package Backend.EstructurasDeDatos;
 
 public class Nodo <E>{
     public E contenido;
