@@ -1,5 +1,6 @@
 package Backend.Analizadores;
 import java_cup.runtime.*;
+import static Backend.Analizadores.parser_FigurasSym.*;
 import Backend.Manejadores.ManejadorErrores;//Agregado
 import Backend.Entidades.ReporteError;//Agregado
 import Backend.Manejadores.ManejadorReportes;//Agregado
@@ -22,7 +23,7 @@ espacioEnBlanco = {finDeLinea} | {tabulacion}
 
 %{
     String lexemaAnterior;
-    ManejadorErrores manejadorErrores = new ManejadorErrores(new ListaEnlazada<ReporteError>);//Agregado
+    ManejadorErrores manejadorErrores = new ManejadorErrores(new ListaEnlazada<ReporteError>());//Agregado
     ManejadorReportes manejadorReportes = new ManejadorReportes();//Agregado
 
     private Symbol symbol(int tipo) {
@@ -55,11 +56,11 @@ espacioEnBlanco = {finDeLinea} | {tabulacion}
             return 8;
      }
 
-     public ListaEnlazada<ReporteError> darListadoErrores(){
+     public ListaEnlazada<ReporteError> darListadoErrores(){//agregado
         return manejadorErrores.darListaErroresHallados();
      }
 
-     public ListaEnlazada<ListaEnlazada<Reportes>> darListadoDeListadoDeReportes(){
+     public ListaEnlazada<ListaEnlazada<Reporte>> darListadoDeListadoDeReportes(){//Agregado
         return manejadorReportes.darListadoReportesFormada();
      }
 %}
@@ -77,9 +78,8 @@ espacioEnBlanco = {finDeLinea} | {tabulacion}
 <YYINITIAL> "circulo" | "cuadrado"| "rectangulo"| "poligono"                                  {anadirLexemaAnterior(yytext());
                                                                                                 manejadorReportes.agregarReportesDeUso("Objeto", yytext());//Recuerda, esto es equivalente a decir figura
                                                                                                 return symbol(darCodificacionFigura(), yytext());}/*si da error es por la falta del import de java.lang...*/
-<YYINITIAL> "linea"                                                                           {return symbol(esAnimacion(), yytext());
-                                                                                                manejadorReportes.agregarReportesDeUso(((esAnimacion()==2)?"Animacion":"Objeto"), yytext());
-                                                                                                anadirLexemaAnterior(yytext()}
+<YYINITIAL> "linea"                                                                           {manejadorReportes.agregarReportesDeUso(((esAnimacion()==2)?"Animacion":"Objeto"), yytext());
+                                                                                                return symbol(esAnimacion(), yytext());}//no hago la llamada al método para hacer la add al leema anterior, por el hecho de que no afecta al redactar bien la instrucción, pues después de haber escrito "línea" no tendría que aparecer nuevamente esta palabra sino hasta desués de haber terminado de escribir la instrucción, para lo cual ya se habrían escrito los lex que se requieren para decir si es anim u objeto :3 xD
 <YYINITIAL> "graficar"                                                                        {anadirLexemaAnterior(yytext());
                                                                                                 return symbol(GRAFICAR, yytext());}
 <YYINITIAL> "animar"                                                                          {anadirLexemaAnterior(yytext());
@@ -102,5 +102,5 @@ espacioEnBlanco = {finDeLinea} | {tabulacion}
     {espacioEnBlanco}                         {/*se ingnora*/}   
 }
 
-[^] {System.out.println("caracter no aceptado"); manejadorErrores.establecerError("lexico", null, null, yytext(), yyline+1, yycolumn+1);*/}/*sería interesante revisar el texto antes de este caracter para ver si tiene coincidencia con alguna de las ER [Pal reservadas o normales]y así decir
+[^] {System.out.println("caracter no aceptado"); manejadorErrores.establecerError("lexico", null, null, yytext(), yyline+1, yycolumn+1);}/*sería interesante revisar el texto antes de este caracter para ver si tiene coincidencia con alguna de las ER [Pal reservadas o normales]y así decir
      "Linea: # Columna: #.Quizá quisiste decir: ylaPalabraCorrecta xD*/

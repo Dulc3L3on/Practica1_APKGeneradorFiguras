@@ -11,6 +11,7 @@ import Backend.EstructurasDeDatos.Pila;
 import Backend.Manejadores.ManejadorColores;
 
 public class RecolectorFiguras {
+    private String color;
     private boolean seCreoCorrectamenteLaFigura;//no se tendrá problemas de que posea un valor que no corresponde a la situación de la figura por el hecho de que cada vez que se cree una figura nueva, esta variable actualizará su valor xD
     private Pila<Figura> pilaDeFiguras;
     private ManejadorColores manejadorColores;
@@ -21,15 +22,15 @@ public class RecolectorFiguras {
         pilaDeFiguras = new Pila<>();
         manejadorColores = new ManejadorColores();
         seCreoCorrectamenteLaFigura = true;
+        color = null;
     }
 
     /**
      * Ejecutado por el parser en la axn de la regla
-     * animar, puetso que en ese punto ya se ha recibido
+     * TresPARAM [ya no en Animar], puetso que en ese punto ya se ha recibido
      * todo lo necesario para saber si se debe o no add
-     * una animación... aunque tb podría hacerse en la priducción
-     * de ters parám pues al llegar ahí se ha obtenido el último
-     * dato necesario para tomar la decisión xD
+     * una animación... y si en dado caso algo sale mal pues
+     * no se exe la axn, lo cual es lo que debería suceder...
      * @param parametrosNumericos
      */
     public void agregarAnimacion(String tipoAnimacion, double parametrosNumericos[], boolean salioBienLaOperacion){//estos se obtenien del obj operador instanciado en el parser.cup...
@@ -42,7 +43,7 @@ public class RecolectorFiguras {
     }
 
     /**
-     * Método empleado en cada producción de la regla Tipo
+     * Método empleado en cada producción de la regla TIPO
      * puesto que si se llega hasta ese punto quiere decir
      * que se terminó de revisar todo, y por ello puede procederse
      * a decidir si crear o no la figura
@@ -51,8 +52,8 @@ public class RecolectorFiguras {
      * @param parametrosNumericos
      * @return
      */
-    public void agregarFigura(String tipoFigura, String color, boolean salioBienLaOperacion, double[] parametrosNumericos){//Este arreglo de parámetros numéricos es brindado por la instancia del operador que se encontrará en el CUP...
-        if(salioBienLaOperacion){//NO es necesario revisar si el color o el tipo de figura el != null, pues si se llegó aquí, lo único que podría estar mal son los parám#...
+    public void agregarFigura(String tipoFigura, boolean salioBienLaOperacion, double[] parametrosNumericos){//Este arreglo de parámetros numéricos es brindado por la instancia del operador que se encontrará en el CUP...
+        if(salioBienLaOperacion && color!=null){//NO es necesario revisar si el color o el tipo de figura el != null, pues si se llegó aquí, lo único que podría estar mal son los parám#...
             switch (tipoFigura){
                 case "circulo":
                     pilaDeFiguras.apilar(new Circulo(parametrosNumericos[0], parametrosNumericos[1], parametrosNumericos[2],
@@ -78,9 +79,15 @@ public class RecolectorFiguras {
                     //jamás nunca se entrará aquí xD
                     break;
             }
+            color = null;
             seCreoCorrectamenteLaFigura =  true;
         }
+        color = null;//esto lo coloco por el hecho de que puede que haya salido algo mal en los parám, por lo cual esta var no tendría que tener algo, pues si es así, se tomaría como color el de la figura anterior aunque en realdidad se haya fallado al momento de revisar lo recibido co lo esperado con respecto al color de la figura en la prod de los parám...
         seCreoCorrectamenteLaFigura = false;
+    }
+
+    public void establecerColor(String elColor){
+        color = elColor;
     }
 
     /*se empleará en el método del parser que se encargará

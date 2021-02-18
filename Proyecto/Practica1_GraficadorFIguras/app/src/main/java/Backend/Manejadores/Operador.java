@@ -1,4 +1,4 @@
-package Backend.EstructurasDeDatos;
+package Backend.Manejadores;
 
 public class Operador {
     private double parametrosNumericos[] = new double[6];
