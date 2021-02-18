@@ -1,5 +1,10 @@
 package Backend.Analizadores;
 import java_cup.runtime.*;
+import Backend.Manejadores.ManejadorErrores;//Agregado
+import Backend.Entidades.ReporteError;//Agregado
+import Backend.Manejadores.ManejadorReportes;//Agregado
+import Backend.EstructurasDeDatos.ListaEnlazada;//Agregado
+import Backend.Entidades.Reporte;//Agregado
 
 %%
 /*Segunda Sección: configuracion*/
@@ -17,6 +22,8 @@ espacioEnBlanco = {finDeLinea} | {tabulacion}
 
 %{
     String lexemaAnterior;
+    ManejadorErrores manejadorErrores = new ManejadorErrores(new ListaEnlazada<ReporteError>);//Agregado
+    ManejadorReportes manejadorReportes = new ManejadorReportes();//Agregado
 
     private Symbol symbol(int tipo) {
         return new Symbol(tipo, yyline+1, yycolumn+1);
@@ -46,20 +53,33 @@ espacioEnBlanco = {finDeLinea} | {tabulacion}
               return 6;
             }
             return 8;
-        }
+     }
+
+     public ListaEnlazada<ReporteError> darListadoErrores(){
+        return manejadorErrores.darListaErroresHallados();
+     }
+
+     public ListaEnlazada<ListaEnlazada<Reportes>> darListadoDeListadoDeReportes(){
+        return manejadorReportes.darListadoReportesFormada();
+     }
 %}
 
 
 %%
 /*Tercer sección: reglas lexicas*/
 
-<YYINITIAL> "curva"                                                                           {anadirLexemaAnterior(yytext()); 
+<YYINITIAL> "curva"                                                                           {anadirLexemaAnterior(yytext());
+                                                                                                 manejadorReportes.agregarReportesDeUso("Animacion", yytext());
                                                                                                 return symbol(ANIMACION, yytext());}
 <YYINITIAL> "amarillo" | "azul"| "cafe"| "morado"| "naranja"| "negro"| "rojo"| "verde"        {anadirLexemaAnterior(yytext());
+                                                                                                manejadorReportes.agregarReportesDeUso("Color", yytext());
                                                                                                 return symbol(COLOR, yytext());}
 <YYINITIAL> "circulo" | "cuadrado"| "rectangulo"| "poligono"                                  {anadirLexemaAnterior(yytext());
+                                                                                                manejadorReportes.agregarReportesDeUso("Objeto", yytext());//Recuerda, esto es equivalente a decir figura
                                                                                                 return symbol(darCodificacionFigura(), yytext());}/*si da error es por la falta del import de java.lang...*/
-<YYINITIAL> "linea"                                                                           {return symbol(esAnimacion(), yytext());}
+<YYINITIAL> "linea"                                                                           {return symbol(esAnimacion(), yytext());
+                                                                                                manejadorReportes.agregarReportesDeUso(((esAnimacion()==2)?"Animacion":"Objeto"), yytext());
+                                                                                                anadirLexemaAnterior(yytext()}
 <YYINITIAL> "graficar"                                                                        {anadirLexemaAnterior(yytext());
                                                                                                 return symbol(GRAFICAR, yytext());}
 <YYINITIAL> "animar"                                                                          {anadirLexemaAnterior(yytext());
@@ -82,11 +102,5 @@ espacioEnBlanco = {finDeLinea} | {tabulacion}
     {espacioEnBlanco}                         {/*se ingnora*/}   
 }
 
-[^] {System.out.println("caracter no aceptado");/*aquí irá la llamada al método de la clase java
-     que será importada hacia acá para hacer la debida 
-     agegación de los errores xD, la cuestión es que 
-     deberás hacer que sea la misma instacia por el hecho
-     de que a esta misma lista que genere el obj ecargado
-     de los errores, será a la que se add los errores
-     hallados en el Sintact*/}/*sería interesante revisar el texto antes de este caracter para ver si tiene coincidencia con alguna de las ER [Pal reservadas o normales]y así decir
+[^] {System.out.println("caracter no aceptado"); manejadorErrores.establecerError("lexico", null, null, yytext(), yyline+1, yycolumn+1);*/}/*sería interesante revisar el texto antes de este caracter para ver si tiene coincidencia con alguna de las ER [Pal reservadas o normales]y así decir
      "Linea: # Columna: #.Quizá quisiste decir: ylaPalabraCorrecta xD*/

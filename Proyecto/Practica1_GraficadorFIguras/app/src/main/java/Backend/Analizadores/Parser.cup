@@ -23,11 +23,14 @@ precedence left MULT, DIV;
 start with instruccion;/*esta nueva forma de instrucción hará que no tenga que preocuparme por el arreglo que almacena los valores numéricos, puesto que la animación lo requerirá luego de haberse empleado los datos que se habían almacenado dentro de sí xD*/
 instruccion ::= graficar animar instruccion
              |
+	         | error /*si al hacer las pruebas, se mira que no es necesario, porque es "redundnate" (aunque no estoy segura que eso pase xD)  reemplazarás este .cup por el que está en git xD [en el que indicas que se haría el mejoramiento de recu de errores en graf y ani xD"*/
              ;
 
-graficar ::= GRAFICAR tipo
-            /*aquí iba el error*/
+graficar ::= GRAFICAR tipo	
           ;
+
+/*parametrosGraficar ::= tipo
+   esto genera conlicto con la prod "error" en animar... por lo cual este error (el que venga de más o no venga la palabra reservada con la que inicia la instrucción) deberá ser tratado o referido desde la prod de error de instruccion... al igual que con animar...;*/
 
 tipo ::= CIRCULO cuatroParam /*se crea la figura, mejor de una vez aquí, pues en este punto todo ya ha salido bien...*/
         | CUADRADO cuatroParam
@@ -66,9 +69,9 @@ valorNumerico ::= valorNumerico SUM valorNumerico           /*axn: se envía el 
                 ;/*no incluí el operador unario "-"" porque no tendría mucho sentido xD :v*/
 
 animar ::= ANIMAR OBJETO ANTERIOR tresParam     /*axn: se agrega la animación a la figura*/
-        |
-                                        /*aquí iba el error; axn: enviar el tipo de error al método de errores general*/
-        ;/*[mejor que si se quede y qye se eli de la producción general...]recuerda que eliminaste el NT instrucción para recuperación, puesto que CUP intentará recuperarse con cualquiera de las producciones del NT que lo contiene,
+        |                                        
+        ;/*el error de que venga de más una palabra resrevada con la que inicia la instrucc o que no venga, se tratará en la prod de error de instrucción...*/
+/*Recuerda que eliminaste el NT instrucción para recuperación, puesto que CUP intentará recuperarse con cualquiera de las producciones del NT que lo contiene,
            y si no llegara a funcionar bien así, entonces coloca "graficar", pues no debería de buscar recuperarme con otra animación, por el hecho de que nunca debería ser
            lo que viniera al principio...*/
         
@@ -76,4 +79,4 @@ animar ::= ANIMAR OBJETO ANTERIOR tresParam     /*axn: se agrega la animación a
 
 /*este es el correcto, xD sii funciona xD uuu gracias DIOS xD*/
 /*de esta forma habrá que ver cómo se enviarán los errore por no venir "graficar" o "animar" "objeto""antetior" puesto que para ello estaban esas producciones de error*/
-/*recuerda que debes averiguar como hacer la eqq para el E: será con los espacios en blanco " "/t/f ??? o habrá que hace ralgo más, o habrá que cb la grám :| xD*/
+/*recuerda que para el e solo se deja el lado der del | vacío xD*/

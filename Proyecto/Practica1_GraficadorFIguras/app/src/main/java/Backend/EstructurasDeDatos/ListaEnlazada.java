@@ -1,12 +1,17 @@
 package Backend.EstructurasDeDatos;
 
 public class ListaEnlazada <E>{
+    private String nombre;
     private int tamanio = 0;
     private Nodo<E> primerNodo;
     private Nodo<E> ultimoNodo;
 
     public ListaEnlazada(){
         limpiarLista();//aunque no veo necesario hacer esto :v xD
+    }
+
+    public void establecerNombreDeLista(String elNombre){
+        nombre = elNombre;
     }
 
     public void anadirAlFinal(E elemento){//yo sé que los métodos de inserción funcionan, por ello no veo necesario devolver un boolean para saberlo...
@@ -38,9 +43,25 @@ public class ListaEnlazada <E>{
         return ultimoNodo.contenido;
     }
 
+    public E darYEliminarUltimoELemento(){
+        E elementoAEliminar = ultimoNodo.contenido;
+
+        Nodo<E> nodoAuxiliar = primerNodo;
+        for (int elementoActual=1; elementoActual < (tamanio-1); elementoActual++){//puesto que se entra estando en el primer elemento, por ello debe ini en 1, para así llegar al penúltimo xD
+            nodoAuxiliar = nodoAuxiliar.nodoSiguiente;
+        }
+        nodoAuxiliar.nodoSiguiente = null;//se pierde la referencia del último nodo, por lo cual se pierde la dirección del último contenido...
+        ultimoNodo = nodoAuxiliar;
+        return elementoAEliminar;
+    }
+
     public void limpiarLista(){
         primerNodo = ultimoNodo = null;
         tamanio = 0;
+    }
+
+    public String darNombre(){
+        return nombre;
     }
 
     public int darTamanio(){
@@ -52,5 +73,13 @@ public class ListaEnlazada <E>{
             return true;
         }
         return false;
+    }
+
+    public Nodo<E> darPrimerNodo(){
+        return primerNodo;
+    }
+
+    public Nodo<E> darUltimoNodo(){
+        return ultimoNodo;
     }
 }

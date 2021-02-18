@@ -11,8 +11,15 @@ public class Pila <T> {//no es necesaria su existencia, pero se imagina mejor te
         elementosPila.anadirAlFinal(elementoAApilar);
     }
 
-    public T darUltimoElemento(){
+    public T inspeccionarUltimoElemento(){
         return elementosPila.darUltimoElemento();
+    }//No elimina de la pila, solo se da para que se inspeccione...
+
+    public T darYEncolarUltimoElemnento(){//xD es que prácticamente hacer esto es usar la funcionalidad de una cola xD
+        T elementoUltimoAntiguo = elementosPila.darYEliminarUltimoELemento();
+        elementosPila.anadirAlPrincipio(elementoUltimoAntiguo);//si hay un error, puede que sea el método anadirAlPrincipio... auqnue tb dudaría del método que elimina y da el último xD
+
+        return elementoUltimoAntiguo;
     }
 
     public boolean estaVacia(){

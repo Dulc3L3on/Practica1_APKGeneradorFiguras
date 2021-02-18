@@ -36,7 +36,7 @@ public class RecolectorFiguras {
         if(seCreoCorrectamenteLaFigura && salioBienLaOperacion){
             //Se instancia el obj obj Animación y se envía como parám a la figura en el toe de la pila... también se hace la revisión de los parámetros recibidos, como en el método para instanciar la figura
             //Animacion animacion = new Animacion()
-            pilaDeFiguras.darUltimoElemento().establecerAnimacion(new Animacion(parametrosNumericos[0], parametrosNumericos[1],
+            pilaDeFiguras.inspeccionarUltimoElemento().establecerAnimacion(new Animacion(parametrosNumericos[0], parametrosNumericos[1],//Recuerda que puedes hacer esto, pues el método de inspeccionar devuelve al obj, por ello al app el punto sobre el método es como si lo estuvieras haciendo sobre el obj porque ese es su "resultado"
                     parametrosNumericos[2], parametrosNumericos[3], tipoAnimacion));//:3 xD
         }
     }
