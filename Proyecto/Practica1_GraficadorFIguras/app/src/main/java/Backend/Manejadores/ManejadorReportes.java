@@ -1,15 +1,18 @@
 package Backend.Manejadores;
 
 import Backend.Entidades.Reporte;
+import Backend.Entidades.ReporteOcurrencias;
 import Backend.Entidades.ReporteUsos;
 import Backend.EstructurasDeDatos.ListaEnlazada;
 import Backend.EstructurasDeDatos.Nodo;
 
 public class ManejadorReportes {
     private ListaEnlazada<ListaEnlazada<Reporte>> listadoDeListadoDeReportes;
+    private ListaEnlazada<Reporte> listadoReportesDeOcurrencia;//y los hijos ya serían del reporte correspondiente, puesto que a pesar de la herencia, en las listas si debe ser el tipo que se colocó... no como en los arreglos, pues en ellos si se detecta la herencia, en cb en las listas supogo que hay que hacer algo más para que se haga algo así xD
 
     public ManejadorReportes(){
         listadoDeListadoDeReportes = new ListaEnlazada<>();
+        listadoReportesDeOcurrencia = new ListaEnlazada<>();
     }
 
     /**
@@ -27,9 +30,12 @@ public class ManejadorReportes {
         buscarLexemaUsado(listaDeReportes, lexema);
     }
 
-    public void agregarReportesDeOcurrencia(){
+    public void agregarReportesDeOcurrencia(String anteriorLexemaSiguiente, int linea, int columna){
+        if(listadoReportesDeOcurrencia.estaVacia()){
+            listadoDeListadoDeReportes.anadirAlFinal(listadoReportesDeOcurrencia);
+        }
 
-
+        listadoReportesDeOcurrencia.anadirAlFinal(new ReporteOcurrencias(anteriorLexemaSiguiente, linea, columna));
     }
 
     private ListaEnlazada<Reporte> buscarListaDeReportesPorNombre(String nombreReporte){

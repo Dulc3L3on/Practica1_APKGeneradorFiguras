@@ -6,6 +6,7 @@ import Backend.Entidades.ReporteError;//Agregado
 import Backend.Manejadores.ManejadorReportes;//Agregado
 import Backend.EstructurasDeDatos.ListaEnlazada;//Agregado
 import Backend.Entidades.Reporte;//Agregado
+import Backend.Entidades.Token;//agregado
 
 %%
 /*Segunda Sección: configuracion*/
@@ -25,21 +26,24 @@ espacioEnBlanco = {finDeLinea} | {tabulacion}
     String lexemaAnterior;
     ManejadorErrores manejadorErrores = new ManejadorErrores(new ListaEnlazada<ReporteError>());//Agregado
     ManejadorReportes manejadorReportes = new ManejadorReportes();//Agregado
+    Token tokenAnterior = null;
 
-    private Symbol symbol(int tipo) {
-        return new Symbol(tipo, yyline+1, yycolumn+1);
-    }
+    private Symbol symbol(int tipo, String nombreToken) {
+        Token tokenActual = new Token(yytext(), tokenAnterior, yyline+1, yycolumn+1);
 
-    private Symbol symbol(int tipo, Object value) {
-        return new Symbol(tipo, yyline+1, yycolumn+1, value);
-    }
+        if(tokenAnterior!=null){
+            tokenAnterior.establecerSiguiente(tokenActual);
+        }
 
-    private void anadirLexemaAnterior(String anterior){
-        lexemaAnterior = anterior;
+        tokenAnterior = tokenActual;//por esto, ya no es necesario tener el método añadirAnterior... pues se puede revisar directamente esta var de tipo Token... xD
+        return new Symbol(tipo, tokenActual);
     }
 
     private int esAnimacion(){//esto lo hago así por el hecho de que cuando la instrucc esté bien, debería ser así xD
-        if(lexemaAnterior.equals("graficar")){
+        if(tokenAnterior== null){
+            return 7;//solo por el hecho de ser más probable en apariciones al principio de la entrada xD, aunque en realidad no importa xD, porque de todos modos sería un error :v
+        }
+        if(tokenAnterior.darLexema().equals("graficar")){
             return 7;
         }
         return 2;
@@ -69,38 +73,28 @@ espacioEnBlanco = {finDeLinea} | {tabulacion}
 %%
 /*Tercer sección: reglas lexicas*/
 
-<YYINITIAL> "curva"                                                                           {anadirLexemaAnterior(yytext());
-                                                                                                 manejadorReportes.agregarReportesDeUso("Animacion", yytext());
-                                                                                                return symbol(ANIMACION, yytext());}
-<YYINITIAL> "amarillo" | "azul"| "cafe"| "morado"| "naranja"| "negro"| "rojo"| "verde"        {anadirLexemaAnterior(yytext());
-                                                                                                manejadorReportes.agregarReportesDeUso("Color", yytext());
-                                                                                                return symbol(COLOR, yytext());}
-<YYINITIAL> "circulo" | "cuadrado"| "rectangulo"| "poligono"                                  {anadirLexemaAnterior(yytext());
-                                                                                                manejadorReportes.agregarReportesDeUso("Objeto", yytext());//Recuerda, esto es equivalente a decir figura
-                                                                                                return symbol(darCodificacionFigura(), yytext());}/*si da error es por la falta del import de java.lang...*/
-<YYINITIAL> "linea"                                                                           {manejadorReportes.agregarReportesDeUso(((esAnimacion()==2)?"Animacion":"Objeto"), yytext());
-                                                                                                return symbol(esAnimacion(), yytext());}//no hago la llamada al método para hacer la add al leema anterior, por el hecho de que no afecta al redactar bien la instrucción, pues después de haber escrito "línea" no tendría que aparecer nuevamente esta palabra sino hasta desués de haber terminado de escribir la instrucción, para lo cual ya se habrían escrito los lex que se requieren para decir si es anim u objeto :3 xD
-<YYINITIAL> "graficar"                                                                        {anadirLexemaAnterior(yytext());
-                                                                                                return symbol(GRAFICAR, yytext());}
-<YYINITIAL> "animar"                                                                          {anadirLexemaAnterior(yytext());
-                                                                                                return symbol(ANIMAR, yytext());}//esta frase "animar objeto anterior" hubiera podido tomarse como una sola "palabra" para el lex, pero por la def de que devuelve un lexema por vez, mejor lo dejamos así separado xD
-<YYINITIAL> "objeto"                                                                          {anadirLexemaAnterior(yytext());
-                                                                                                return symbol(OBJETO, yytext());}
-<YYINITIAL> "anterior"                                                                        {anadirLexemaAnterior(yytext());
-                                                                                                return symbol(ANTERIOR, yytext());}/*por el momento, no pienso que me resulte útil el mandar el texto, tanto en estas prod de 1 sola palabra como en la de las figuras [pues estas tiene como nombre del tkn el lexema como tal...]... aunque ahora que lo pienso, creo que esto me será útil para enviar el nombre del tkn erroneo al método para add los errores, por medio de la colocación de la variable con el mismo nombre para todos los T :)*/
+<YYINITIAL> "curva"                                                                           {manejadorReportes.agregarReportesDeUso("Animacion", yytext());
+                                                                                                return symbol(ANIMACION, "animacion");}
+<YYINITIAL> "amarillo" | "azul"| "cafe"| "morado"| "naranja"| "negro"| "rojo"| "verde"        {manejadorReportes.agregarReportesDeUso("Color", yytext());
+                                                                                                return symbol(COLOR, "color";}
+<YYINITIAL> "circulo" | "cuadrado"| "rectangulo"| "poligono"                                  {manejadorReportes.agregarReportesDeUso("Objeto", yytext());//Recuerda, esto es equivalente a decir figura
+                                                                                                return symbol(darCodificacionFigura(), "objeto");}/*si da error es por la falta del import de java.lang...*/
+<YYINITIAL> "linea"                                                                           {int tipo = esAnimacion();/*con la imple de la var token anterior, no es necesario hacer esto, pero para evitar exe un método del cual no cb su valor, mejor guardo el dato en una var xD y listo xD*/
+                                                                                                manejadorReportes.agregarReportesDeUso(((tipo==2)?"Animacion":"Objeto"), yytext());
+                                                                                                return symbol(tipo, (tipo==2)?"Animacion":"Objeto");}//no hago la llamada al método para hacer la add al leema anterior, por el hecho de que no afecta al redactar bien la instrucción, pues después de haber escrito "línea" no tendría que aparecer nuevamente esta palabra sino hasta desués de haber terminado de escribir la instrucción, para lo cual ya se habrían escrito los lex que se requieren para decir si es anim u objeto :3 xD
+<YYINITIAL> "graficar"                                                                        {return symbol(GRAFICAR, "graficar");}
+<YYINITIAL> "animar"                                                                          {return symbol(ANIMAR, "animar");}//esta frase "animar objeto anterior" hubiera podido tomarse como una sola "palabra" para el lex, pero por la def de que devuelve un lexema por vez, mejor lo dejamos así separado xD
+<YYINITIAL> "objeto"                                                                          {return symbol(OBJETO, "object");}/*para que no halla problemas con el nombramiento de las figuras...*/
+<YYINITIAL> "anterior"                                                                        {return symbol(ANTERIOR, "anterior");}/*por el momento, no pienso que me resulte útil el mandar el texto, tanto en estas prod de 1 sola palabra como en la de las figuras [pues estas tiene como nombre del tkn el lexema como tal...]... aunque ahora que lo pienso, creo que esto me será útil para enviar el nombre del tkn erroneo al método para add los errores, por medio de la colocación de la variable con el mismo nombre para todos los T :)*/
 
 <YYINITIAL>{
-    {numero}+("."{numero}+)?             {anadirLexemaAnterior(yytext());
-                                           return symbol(NUMERO, yytext());}
-    "*"|"+"                              {anadirLexemaAnterior(yytext());
-                                           return symbol( (yytext().equals("*"))?MULT:SUM);}
-    "-"|"/"                              {anadirLexemaAnterior(yytext());
-                                            return symbol( (yytext().equals("-"))?RES:DIV);}
-    "("|")"|","                          {anadirLexemaAnterior(yytext());
-                                            return symbol( (yytext().equals("("))?APER:(yytext().equals(")"))?CIER:COMA);}
+    {numero}+("."{numero}+)?             {return symbol(NUMERO, "numero");}
+    "*"|"+"                              {return symbol( (yytext().equals("*"))?MULT:SUM, (yytext().equals("*"))?"MULT":"SUM");}
+    "-"|"/"                              {return symbol( (yytext().equals("-"))?RES:DIV, (yytext().equals("*"))?"RES":"DIV");}
+    "("|")"|","                          {return symbol( (yytext().equals("("))?APER:(yytext().equals(")"))?CIER:COMA, (yytext().equals("("))?"(":(yytext().equals(")"))?")":"COMA");}/*SI HAY ERROR es por haber colocado como nombre los ( y ) en lugar del nombre literal APER o CIER respectivamente...*/
 
     {espacioEnBlanco}                         {/*se ingnora*/}   
 }
 
 [^] {System.out.println("caracter no aceptado"); manejadorErrores.establecerError("lexico", null, null, yytext(), yyline+1, yycolumn+1);}/*sería interesante revisar el texto antes de este caracter para ver si tiene coincidencia con alguna de las ER [Pal reservadas o normales]y así decir
-     "Linea: # Columna: #.Quizá quisiste decir: ylaPalabraCorrecta xD*/
+     "Linea: # Columna: #.Quizá quisiste decir: ylaPalabraCorrecta xD*//*aquí ya tendría acceso al anterior, pero no veo que sea necesario especificar eso, si de todos modos ya doy la fila y columna xD*/

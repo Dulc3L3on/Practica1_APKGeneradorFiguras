@@ -48,10 +48,14 @@ public class ManejadorErrores {//base terminada xD [es decir que puede tener cb 
                 listaDeErrores.anadirAlFinal(new ReporteError(elLexema, numeroLinea, numeroColumna, "Sintáctico",//y aquí tb lo de la var tipo xD
                         "inicio de instruccion incorrecta"));//el colocar iniciao de instrucción incorrecta resulta ser ambiguo por lo cual podría entenderse como que no iniciió como debía la instrucción ó que no se inició con la instrucción graficar... xD que ofertón xD
                 break;//haría falta el tipo de error en el que se indica que se esperaba las palabras con las que ini las instrucciones, graficar, o cualquiera de animar objeto anterior xD
+            case "division por cero":
+                listaDeErrores.anadirAlFinal(new ReporteError(elLexema, numeroLinea, numeroColumna, "Sintáctico",//y aquí tb lo de la var tipo xD
+                        "División por 0"));
+                break;
         }
     }
 
-    public String manejadorErroresOperacion(String nombreLexemaAnterior, String nombreDelLexema){//Esto quiere decir que requeriré de los nombres a parte del lexema...
+    private String manejadorErroresOperacion(String nombreLexemaAnterior, String nombreDelLexema){//Esto quiere decir que requeriré de los nombres a parte del lexema...
         if(nombreLexemaAnterior.equalsIgnoreCase("NUMERO") && nombreDelLexema.equals(nombreLexemaAnterior)){
             return "Falta signo de operacion";
         }else if((nombreLexemaAnterior.equals("NUMERO") && nombreDelLexema.equals("(")) || (nombreLexemaAnterior.equals(")") && nombreDelLexema.equals("NUMERO"))){

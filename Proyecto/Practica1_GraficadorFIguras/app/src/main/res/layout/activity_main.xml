@@ -13,8 +13,8 @@
         android:layout_height="31dp"
         android:fontFamily="@font/bowlby_one"
         android:text=" -::Graficadora Geometrica::-"
-        android:textSize="18sp"
-        app:autoSizeTextType="none"
+        android:textSize="15sp"
+        app:autoSizeTextType="uniform"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.543"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -24,8 +24,14 @@
 
     <EditText
         android:id="@+id/txtArea_Especificaciones"
-        android:layout_width="345dp"
-        android:layout_height="487dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="27dp"
+        android:layout_marginLeft="27dp"
+        android:layout_marginTop="105dp"
+        android:layout_marginEnd="27dp"
+        android:layout_marginRight="27dp"
+        android:layout_marginBottom="11dp"
         android:background="?attr/colorButtonNormal"
         android:editable="true"
         android:ems="10"
@@ -35,18 +41,23 @@
         android:scrollbarAlwaysDrawVerticalTrack="true"
         android:scrollbars="vertical"
         android:text="escribe aquí las instrucciones..."
-        android:textSize="14sp"
-        tools:layout_editor_absoluteX="33dp"
-        tools:layout_editor_absoluteY="105dp" />
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/btn_Compilar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ToggleButton
         android:id="@+id/btn_Compilar"
-        android:layout_width="189dp"
-        android:layout_height="59dp"
+        android:layout_width="216dp"
+        android:layout_height="67dp"
+        android:layout_marginBottom="56dp"
         android:text="ToggleButton"
         android:textOff="Compilar"
         android:textOn="Compilar"
-        tools:layout_editor_absoluteX="104dp"
-        tools:layout_editor_absoluteY="616dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtArea_Especificaciones" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
