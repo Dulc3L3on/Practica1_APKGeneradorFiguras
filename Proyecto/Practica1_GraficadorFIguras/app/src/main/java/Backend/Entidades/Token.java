@@ -16,6 +16,11 @@ public class Token {
         columna = laColumna;
     }
 
+    public static Token parseToken(Object objeto){
+        Token token = (Token) objeto;
+        return token;
+    }
+
     public void establecerSiguiente(Token elSiguiente){
         tokenSiguiente = elSiguiente;
     }

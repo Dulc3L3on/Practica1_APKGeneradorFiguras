@@ -3,14 +3,28 @@
 // source: lexer.jflex
 
 package Backend.Analizadores;
-import java_cup.runtime.*;
-import static Backend.Analizadores.parser_FigurasSym.*;
-import Backend.Manejadores.ManejadorErrores;//Agregado
-import Backend.Entidades.ReporteError;//Agregado
-import Backend.Manejadores.ManejadorReportes;//Agregado
-import Backend.EstructurasDeDatos.ListaEnlazada;//Agregado
-import Backend.Entidades.Reporte;//Agregado
-import Backend.Entidades.Token;//agregado
+import Backend.Entidades.Reporte;
+import Backend.Entidades.ReporteError;
+import Backend.Entidades.Token;
+import Backend.EstructurasDeDatos.ListaEnlazada;
+import Backend.Manejadores.ManejadorErrores;
+import Backend.Manejadores.ManejadorReportes;
+import java_cup.runtime.Symbol;
+
+import static Backend.Analizadores.parser_FigurasSym.ANIMACION;
+import static Backend.Analizadores.parser_FigurasSym.ANIMAR;
+import static Backend.Analizadores.parser_FigurasSym.ANTERIOR;
+import static Backend.Analizadores.parser_FigurasSym.APER;
+import static Backend.Analizadores.parser_FigurasSym.CIER;
+import static Backend.Analizadores.parser_FigurasSym.COLOR;
+import static Backend.Analizadores.parser_FigurasSym.COMA;
+import static Backend.Analizadores.parser_FigurasSym.DIV;
+import static Backend.Analizadores.parser_FigurasSym.GRAFICAR;
+import static Backend.Analizadores.parser_FigurasSym.MULT;
+import static Backend.Analizadores.parser_FigurasSym.NUMERO;
+import static Backend.Analizadores.parser_FigurasSym.OBJETO;
+import static Backend.Analizadores.parser_FigurasSym.RES;
+import static Backend.Analizadores.parser_FigurasSym.SUM;
 
 
 // See https://github.com/jflex-de/jflex/issues/222
@@ -328,7 +342,7 @@ public class lexer_Figuras implements java_cup.runtime.Scanner {
     Token tokenAnterior = null;
 
     private Symbol symbol(int tipo, String nombreToken) {
-        Token tokenActual = new Token(yytext(), tokenAnterior, yyline+1, yycolumn+1);
+        Token tokenActual = new Token(nombreToken, yytext(), tokenAnterior, yyline+1, yycolumn+1);
 
         if(tokenAnterior!=null){
             tokenAnterior.establecerSiguiente(tokenActual);
@@ -769,7 +783,7 @@ public class lexer_Figuras implements java_cup.runtime.Scanner {
       if (zzInput == YYEOF && zzStartRead == zzCurrentPos) {
         zzAtEOF = true;
             zzDoEOF();
-          { return new java_cup.runtime.Symbol(sym.EOF); }
+          { return new java_cup.runtime.Symbol(parser_FigurasSym.EOF); }
       }
       else {
         switch (zzAction < 0 ? zzAction : ZZ_ACTION[zzAction]) {
@@ -805,7 +819,7 @@ public class lexer_Figuras implements java_cup.runtime.Scanner {
           case 20: break;
           case 7:
             { manejadorReportes.agregarReportesDeUso("Color", yytext());
-                                                                                                return symbol(COLOR, "color";
+                                                                                                return symbol(COLOR, "color");
             }
             // fall through
           case 21: break;

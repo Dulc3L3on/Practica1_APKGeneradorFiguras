@@ -29,7 +29,7 @@ espacioEnBlanco = {finDeLinea} | {tabulacion}
     Token tokenAnterior = null;
 
     private Symbol symbol(int tipo, String nombreToken) {
-        Token tokenActual = new Token(yytext(), tokenAnterior, yyline+1, yycolumn+1);
+        Token tokenActual = new Token(nombreToken, yytext(), tokenAnterior, yyline+1, yycolumn+1);
 
         if(tokenAnterior!=null){
             tokenAnterior.establecerSiguiente(tokenActual);
@@ -76,7 +76,7 @@ espacioEnBlanco = {finDeLinea} | {tabulacion}
 <YYINITIAL> "curva"                                                                           {manejadorReportes.agregarReportesDeUso("Animacion", yytext());
                                                                                                 return symbol(ANIMACION, "animacion");}
 <YYINITIAL> "amarillo" | "azul"| "cafe"| "morado"| "naranja"| "negro"| "rojo"| "verde"        {manejadorReportes.agregarReportesDeUso("Color", yytext());
-                                                                                                return symbol(COLOR, "color";}
+                                                                                                return symbol(COLOR, "color");}
 <YYINITIAL> "circulo" | "cuadrado"| "rectangulo"| "poligono"                                  {manejadorReportes.agregarReportesDeUso("Objeto", yytext());//Recuerda, esto es equivalente a decir figura
                                                                                                 return symbol(darCodificacionFigura(), "objeto");}/*si da error es por la falta del import de java.lang...*/
 <YYINITIAL> "linea"                                                                           {int tipo = esAnimacion();/*con la imple de la var token anterior, no es necesario hacer esto, pero para evitar exe un método del cual no cb su valor, mejor guardo el dato en una var xD y listo xD*/

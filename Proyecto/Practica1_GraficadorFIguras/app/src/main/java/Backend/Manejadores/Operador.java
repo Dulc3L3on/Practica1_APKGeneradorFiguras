@@ -8,7 +8,7 @@ public class Operador {
     private String signo = null;
     private ManejadorErrores manejadorErrores;
 
-    Operador(ManejadorErrores elManejadorErrores){/*recibes la instancia de la calse que maneja los errores, en el init code, para evitar que se trabaje con otra lista de errores que será pasada a los reportes, al final del archi <<EOF>>...*/
+    public Operador(ManejadorErrores elManejadorErrores){/*recibes la instancia de la calse que maneja los errores, en el init code, para evitar que se trabaje con otra lista de errores que será pasada a los reportes, al final del archi <<EOF>>...*/
         manejadorErrores = elManejadorErrores;
     }
     /**
