@@ -1,8 +1,10 @@
 package Backend.Manejadores;
 
 import Backend.Entidades.Reporte;
+import Backend.Entidades.ReporteError;
 import Backend.Entidades.ReporteOcurrencias;
 import Backend.Entidades.ReporteUsos;
+import Backend.Entidades.Token;
 import Backend.EstructurasDeDatos.ListaEnlazada;
 import Backend.EstructurasDeDatos.Nodo;
 
@@ -30,12 +32,14 @@ public class ManejadorReportes {
         buscarLexemaUsado(listaDeReportes, lexema);
     }
 
-    public void agregarReportesDeOcurrencia(String anteriorLexemaSiguiente, int linea, int columna){
-        if(listadoReportesDeOcurrencia.estaVacia()){
-            listadoDeListadoDeReportes.anadirAlFinal(listadoReportesDeOcurrencia);
-        }
+    public void agregarReportesDeOcurrencia(ListaEnlazada<ReporteError> listadoDeErrores, Token token){//mejor voy a recibir el token de una vez para así obtner de manera directa estos valores y hacerlo solo sí la lista de errores está vacía... xD
+        if(listadoDeErrores.estaVacia()){
+            if(listadoReportesDeOcurrencia.estaVacia()){
+                listadoDeListadoDeReportes.anadirAlFinal(listadoReportesDeOcurrencia);
+            }
 
-        listadoReportesDeOcurrencia.anadirAlFinal(new ReporteOcurrencias(anteriorLexemaSiguiente, linea, columna));
+            listadoReportesDeOcurrencia.anadirAlFinal(new ReporteOcurrencias(token.darLexemaAnterior()+token.darLexema()+token.darLexemaSiguiente(), token.darFila(), token.darColumna()));
+        }
     }
 
     private ListaEnlazada<Reporte> buscarListaDeReportesPorNombre(String nombreReporte){

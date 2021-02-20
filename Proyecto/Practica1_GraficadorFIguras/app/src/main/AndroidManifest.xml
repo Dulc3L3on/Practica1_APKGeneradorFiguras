@@ -9,7 +9,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Practica1_GraficadorFIguras">
-        <activity android:name=".Lienzo"></activity>
+        <activity android:name=".actividadReportes"></activity>
+        <activity android:name=".actividadFiguras" />
+        <activity android:name=".lienzoReportes" />
+        <activity android:name=".LienzoFiguras" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

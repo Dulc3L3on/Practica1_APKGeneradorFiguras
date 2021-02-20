@@ -3,13 +3,28 @@
 // source: lexer.jflex
 
 package Backend.Analizadores;
-import java_cup.runtime.*;
-import static Backend.Analizadores.parser_FigurasSym.*;
-import Backend.Manejadores.ManejadorErrores;//Agregado
-import Backend.Entidades.ReporteError;//Agregado
-import Backend.Manejadores.ManejadorReportes;//Agregado
-import Backend.EstructurasDeDatos.ListaEnlazada;//Agregado
-import Backend.Entidades.Reporte;//Agregado
+import Backend.Entidades.Reporte;
+import Backend.Entidades.ReporteError;
+import Backend.Entidades.Token;
+import Backend.EstructurasDeDatos.ListaEnlazada;
+import Backend.Manejadores.ManejadorErrores;
+import Backend.Manejadores.ManejadorReportes;
+import java_cup.runtime.Symbol;
+
+import static Backend.Analizadores.parser_FigurasSym.ANIMACION;
+import static Backend.Analizadores.parser_FigurasSym.ANIMAR;
+import static Backend.Analizadores.parser_FigurasSym.ANTERIOR;
+import static Backend.Analizadores.parser_FigurasSym.APER;
+import static Backend.Analizadores.parser_FigurasSym.CIER;
+import static Backend.Analizadores.parser_FigurasSym.COLOR;
+import static Backend.Analizadores.parser_FigurasSym.COMA;
+import static Backend.Analizadores.parser_FigurasSym.DIV;
+import static Backend.Analizadores.parser_FigurasSym.GRAFICAR;
+import static Backend.Analizadores.parser_FigurasSym.MULT;
+import static Backend.Analizadores.parser_FigurasSym.NUMERO;
+import static Backend.Analizadores.parser_FigurasSym.OBJETO;
+import static Backend.Analizadores.parser_FigurasSym.RES;
+import static Backend.Analizadores.parser_FigurasSym.SUM;
 
 
 // See https://github.com/jflex-de/jflex/issues/222
@@ -324,21 +339,24 @@ public class lexer_Figuras implements java_cup.runtime.Scanner {
     String lexemaAnterior;
     ManejadorErrores manejadorErrores = new ManejadorErrores(new ListaEnlazada<ReporteError>());//Agregado
     ManejadorReportes manejadorReportes = new ManejadorReportes();//Agregado
+    Token tokenAnterior = null;
 
-    private Symbol symbol(int tipo) {
-        return new Symbol(tipo, yyline+1, yycolumn+1);
-    }
+    private Symbol symbol(int tipo, String nombreToken) {
+        Token tokenActual = new Token(nombreToken, yytext(), tokenAnterior, yyline+1, yycolumn+1);
 
-    private Symbol symbol(int tipo, Object value) {
-        return new Symbol(tipo, yyline+1, yycolumn+1, value);
-    }
+        if(tokenAnterior!=null){
+            tokenAnterior.establecerSiguiente(tokenActual);
+        }
 
-    private void anadirLexemaAnterior(String anterior){
-        lexemaAnterior = anterior;
+        tokenAnterior = tokenActual;//por esto, ya no es necesario tener el método añadirAnterior... pues se puede revisar directamente esta var de tipo Token... xD
+        return new Symbol(tipo, tokenActual);
     }
 
     private int esAnimacion(){//esto lo hago así por el hecho de que cuando la instrucc esté bien, debería ser así xD
-        if(lexemaAnterior.equals("graficar")){
+        if(tokenAnterior== null){
+            return 7;//solo por el hecho de ser más probable en apariciones al principio de la entrada xD, aunque en realidad no importa xD, porque de todos modos sería un error :v
+        }
+        if(tokenAnterior.darLexema().equals("graficar")){
             return 7;
         }
         return 2;
@@ -765,7 +783,7 @@ public class lexer_Figuras implements java_cup.runtime.Scanner {
       if (zzInput == YYEOF && zzStartRead == zzCurrentPos) {
         zzAtEOF = true;
             zzDoEOF();
-          { return new java_cup.runtime.Symbol(sym.EOF); }
+          { return new java_cup.runtime.Symbol(parser_FigurasSym.EOF); }
       }
       else {
         switch (zzAction < 0 ? zzAction : ZZ_ACTION[zzAction]) {
@@ -780,79 +798,67 @@ public class lexer_Figuras implements java_cup.runtime.Scanner {
             // fall through
           case 16: break;
           case 3:
-            { anadirLexemaAnterior(yytext());
-                                            return symbol( (yytext().equals("("))?APER:(yytext().equals(")"))?CIER:COMA);
+            { return symbol( (yytext().equals("("))?APER:(yytext().equals(")"))?CIER:COMA, (yytext().equals("("))?"(":(yytext().equals(")"))?")":"COMA");
             }
             // fall through
           case 17: break;
           case 4:
-            { anadirLexemaAnterior(yytext());
-                                           return symbol( (yytext().equals("*"))?MULT:SUM);
+            { return symbol( (yytext().equals("*"))?MULT:SUM, (yytext().equals("*"))?"MULT":"SUM");
             }
             // fall through
           case 18: break;
           case 5:
-            { anadirLexemaAnterior(yytext());
-                                            return symbol( (yytext().equals("-"))?RES:DIV);
+            { return symbol( (yytext().equals("-"))?RES:DIV, (yytext().equals("*"))?"RES":"DIV");
             }
             // fall through
           case 19: break;
           case 6:
-            { anadirLexemaAnterior(yytext());
-                                           return symbol(NUMERO, yytext());
+            { return symbol(NUMERO, "numero");
             }
             // fall through
           case 20: break;
           case 7:
-            { anadirLexemaAnterior(yytext());
-                                                                                                manejadorReportes.agregarReportesDeUso("Color", yytext());
-                                                                                                return symbol(COLOR, yytext());
+            { manejadorReportes.agregarReportesDeUso("Color", yytext());
+                                                                                                return symbol(COLOR, "color");
             }
             // fall through
           case 21: break;
           case 8:
-            { anadirLexemaAnterior(yytext());
-                                                                                                 manejadorReportes.agregarReportesDeUso("Animacion", yytext());
-                                                                                                return symbol(ANIMACION, yytext());
+            { manejadorReportes.agregarReportesDeUso("Animacion", yytext());
+                                                                                                return symbol(ANIMACION, "animacion");
             }
             // fall through
           case 22: break;
           case 9:
-            { int tipo = esAnimacion();
+            { int tipo = esAnimacion();/*con la imple de la var token anterior, no es necesario hacer esto, pero para evitar exe un método del cual no cb su valor, mejor guardo el dato en una var xD y listo xD*/
                                                                                                 manejadorReportes.agregarReportesDeUso(((tipo==2)?"Animacion":"Objeto"), yytext());
-                                                                                                anadirLexemaAnterior(yytext());/*así no hay problemas al retornar la info..*/
-                                                                                                return symbol(tipo, yytext());
+                                                                                                return symbol(tipo, (tipo==2)?"Animacion":"Objeto");
             }
             // fall through
           case 23: break;
           case 10:
-            { anadirLexemaAnterior(yytext());
-                                                                                                return symbol(ANIMAR, yytext());
+            { return symbol(ANIMAR, "animar");
             }
             // fall through
           case 24: break;
           case 11:
-            { anadirLexemaAnterior(yytext());
-                                                                                                return symbol(OBJETO, yytext());
+            { return symbol(OBJETO, "object");
             }
             // fall through
           case 25: break;
           case 12:
-            { anadirLexemaAnterior(yytext());
-                                                                                                manejadorReportes.agregarReportesDeUso("Objeto", yytext());//Recuerda, esto es equivalente a decir figura
-                                                                                                return symbol(darCodificacionFigura(), yytext());
+            { manejadorReportes.agregarReportesDeUso("Objeto", yytext());//Recuerda, esto es equivalente a decir figura
+                                                                                                return symbol(darCodificacionFigura(), "objeto");
             }
             // fall through
           case 26: break;
           case 13:
-            { anadirLexemaAnterior(yytext());
-                                                                                                return symbol(ANTERIOR, yytext());
+            { return symbol(ANTERIOR, "anterior");
             }
             // fall through
           case 27: break;
           case 14:
-            { anadirLexemaAnterior(yytext());
-                                                                                                return symbol(GRAFICAR, yytext());
+            { return symbol(GRAFICAR, "graficar");
             }
             // fall through
           case 28: break;

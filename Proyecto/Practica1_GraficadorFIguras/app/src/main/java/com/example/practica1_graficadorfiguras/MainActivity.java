@@ -1,5 +1,6 @@
 package com.example.practica1_graficadorfiguras;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -9,11 +10,17 @@ import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.io.Serializable;
 import java.io.StringReader;
 import java.security.NoSuchAlgorithmException;
 
 import Backend.Analizadores.lexer_Figuras;
 import Backend.Analizadores.parser_Figuras;
+import Backend.Entidades.Figuras.Figura;
+import Backend.Entidades.Reporte;
+import Backend.Entidades.ReporteError;
+import Backend.EstructurasDeDatos.ListaEnlazada;
+import Backend.EstructurasDeDatos.Pila;
 
 public class MainActivity extends AppCompatActivity {
     private EditText areaEntrada;
@@ -41,11 +48,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if(!areaEntrada.getText().toString().isEmpty()){
-                    btnCompilar.setEnabled(true);
-                }else{
-                    btnCompilar.setEnabled(false);
-                }
+                btnCompilar.setEnabled(!areaEntrada.getText().toString().isEmpty());
             }
         });
 
@@ -59,10 +62,13 @@ public class MainActivity extends AppCompatActivity {
 
                     lexer_Figuras lexer = new lexer_Figuras(lector);
                     parser_Figuras parser = new parser_Figuras(lexer);
+                    parser.recibirListadoErroresYReportesUso(lexer.darListadoErrores(), lexer.darListadoDeListadoDeReportes());
                     //se ejecuta el análisis sintáctico
                     parser.parse();
+                    ejecutarResultadoDeAnalisis(parser.darListadoDeErrores(), parser.darListadoDeListadoDeReportes(), parser.darPilaDeFiguras());
 
                 } catch (NoSuchAlgorithmException e) { //error en onclick
+                    System.out.println("error al dar click -> "+e.getMessage());
                     e.printStackTrace();
                 } catch (Exception ex) { //error en parser
                     System.out.println("Error irrecuperable");//aunque esto jamás se debería ejecutar
@@ -70,6 +76,20 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+    }
 
+    private void ejecutarResultadoDeAnalisis(ListaEnlazada<ReporteError> listadoDeErrores, ListaEnlazada<ListaEnlazada<Reporte>> listadoDeReportes, Pila<Figura> pilaDeFiguras){
+        if(listadoDeErrores.estaVacia()){//Se muestra la pantalla que contiene las figuras y 2 btn 1 para mostrarReportes y otro para animar [auqnue creo que debería ir de primero el de animar, pues sería a el más utilizado]...
+            Intent nuevoIntento = new Intent(this, actividadFiguras.class);//El paquete y la clase en la que se encuentra la actvidad [o pantalla] nueva
+            Bundle nuevoPaqueteDatos = new Bundle();
+
+            nuevoPaqueteDatos.putSerializable("pilaDeFiguras", (Serializable) pilaDeFiguras);//este método es similar al del request, en el qe se le enviaba el id con el que se iba a emplear el dato envuado en el otro parámetro xD, solo que esn este caso, requiere de un obj más en este caso intent para hacer la trancisión, que sería lo eqquivalente a la redirección en JSP's xD
+            nuevoPaqueteDatos.putSerializable("listadoReportes", (Serializable) listadoDeReportes);//si da errores es porque estas clases deben implementar a Serializable...
+
+            nuevoIntento.putExtras(nuevoPaqueteDatos);
+            startActivity(nuevoIntento);
+        }
+        //sino entonces lo que se hace es add una tabla abajo de los botones para que visualice los reportes y así puede corregir de una vez lo que corresponde...
+        //y luego se actualiza la pantalla [no se si es neceario xD, pero por si acaso xD]
     }
 }

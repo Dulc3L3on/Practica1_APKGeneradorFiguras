@@ -9,12 +9,12 @@ import Backend.Entidades.Figuras.Figura;
 import Backend.EstructurasDeDatos.Pila;
 import Backend.Manejadores.Procesador;
 
-public class Lienzo extends View {
+public class LienzoFiguras extends View {
     private Pila<Figura> pilaDeFiguras;
     private Paint pintor;
     private Procesador procesadorSolicitudes;
 
-    public Lienzo(Context contexto, Pila<Figura> pilaFiguras){
+    public LienzoFiguras(Context contexto, Pila<Figura> pilaFiguras){
         super(contexto);
 
         pilaDeFiguras = pilaFiguras;
