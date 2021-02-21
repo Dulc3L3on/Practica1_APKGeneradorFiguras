@@ -1,12 +1,12 @@
 package Backend.Manejadores;
 
 public class Operador {
-    private double parametrosNumericos[] = new double[6];
+    private final double[] parametrosNumericos = new double[6];
     private double segundoNumero = 0;//que se requiere para realizar la operación en cuestión
     private boolean hayQueSeguirOperando = true;
     private int posicionDeValorNumerico = 0;//hago la inicialización desde aqupi por el hecho de que sería redundante para el caso del arreglo y además no creo que de problemas, pues estos tipos son "primi", pues cuando no es así puede dar problemas como el stackOverFLow, por tener el obj que crea al obj que etá intentando instanciarlo xD
     private String signo = null;
-    private ManejadorErrores manejadorErrores;
+    private final ManejadorErrores manejadorErrores;
 
     public Operador(ManejadorErrores elManejadorErrores){/*recibes la instancia de la calse que maneja los errores, en el init code, para evitar que se trabaje con otra lista de errores que será pasada a los reportes, al final del archi <<EOF>>...*/
         manejadorErrores = elManejadorErrores;
@@ -83,7 +83,7 @@ public class Operador {
      */
     public boolean todosLosParametrosCorrectos(){
         boolean noSeDejoDeEvaluar = hayQueSeguirOperando;//puesto que si se canceló en cualquier parte el realizar las op, no todos estaban correctos...
-        reestablecerValores();//puesto que si se llega a la instanciación quiere decir que se avecina una figura nueva...
+        //reestablecerValores();//puesto que si se llega a la instanciación quiere decir que se avecina una figura nueva...---------pero no debe hacerse aquí, sino todo el trabjao realizado, se reiniciará sin siquiera haberlo revisado :v xD
         return noSeDejoDeEvaluar;
     }
 
@@ -93,7 +93,12 @@ public class Operador {
         signo = null;
     }
 
-     private void reestablecerValores(){
+    /**
+     * Método ejecutado luego de intentar crear una figura
+     * sea que se haya logrado o que se haya fallado, tb
+     * se ejecuta luego de haber intentado animar
+     */
+     public void reestablecerValores(){
          prepararVariablesParaProximoValor();
          hayQueSeguirOperando = true;
          posicionDeValorNumerico =0;//por el hecho de que la producción que redirija aquí le dará un valor de 1 al 1er parám...

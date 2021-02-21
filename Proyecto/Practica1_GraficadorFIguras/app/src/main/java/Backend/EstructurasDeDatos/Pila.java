@@ -1,7 +1,9 @@
 package Backend.EstructurasDeDatos;
 
-public class Pila <T> {//no es necesaria su existencia, pero se imagina mejor teniendo en mente una pila :v xD
-    private ListaEnlazada<T> elementosPila;//xD
+import java.io.Serializable;
+
+public class Pila <T> implements Serializable {//no es necesaria su existencia, pero se imagina mejor teniendo en mente una pila :v xD
+    private final ListaEnlazada<T> elementosPila;//xD
 
     public Pila(){
         elementosPila = new ListaEnlazada<>();

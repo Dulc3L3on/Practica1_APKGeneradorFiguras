@@ -832,7 +832,7 @@ public class lexer_Figuras implements java_cup.runtime.Scanner {
           case 9:
             { int tipo = esAnimacion();/*con la imple de la var token anterior, no es necesario hacer esto, pero para evitar exe un método del cual no cb su valor, mejor guardo el dato en una var xD y listo xD*/
                                                                                                 manejadorReportes.agregarReportesDeUso(((tipo==2)?"Animacion":"Objeto"), yytext());
-                                                                                                return symbol(tipo, (tipo==2)?"Animacion":"Objeto");
+                                                                                                return symbol(tipo, (tipo==2)?"animacion":"objeto");
             }
             // fall through
           case 23: break;

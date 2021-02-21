@@ -1,6 +1,8 @@
 package Backend.Entidades;
 
-public class ReporteUsos extends Reporte{
+import java.io.Serializable;
+
+public class ReporteUsos extends Reporte implements Serializable {
     private int cantidadVecesUsado;
 
     public ReporteUsos(String elLexema){

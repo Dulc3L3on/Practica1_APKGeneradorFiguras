@@ -9,7 +9,7 @@ import Backend.EstructurasDeDatos.ListaEnlazada;
 import Backend.EstructurasDeDatos.Nodo;
 
 public class ManejadorReportes {
-    private ListaEnlazada<ListaEnlazada<Reporte>> listadoDeListadoDeReportes;
+    private final ListaEnlazada<ListaEnlazada<Reporte>> listadoDeListadoDeReportes;
     private ListaEnlazada<Reporte> listadoReportesDeOcurrencia;//y los hijos ya serían del reporte correspondiente, puesto que a pesar de la herencia, en las listas si debe ser el tipo que se colocó... no como en los arreglos, pues en ellos si se detecta la herencia, en cb en las listas supogo que hay que hacer algo más para que se haga algo así xD
 
     public ManejadorReportes(){

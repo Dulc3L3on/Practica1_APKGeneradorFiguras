@@ -1,6 +1,8 @@
 package Backend.EstructurasDeDatos;
 
-public class ListaEnlazada <E>{
+import java.io.Serializable;
+
+public class ListaEnlazada <E> implements Serializable {
     private String nombre;
     private int tamanio = 0;
     private Nodo<E> primerNodo;
@@ -69,10 +71,7 @@ public class ListaEnlazada <E>{
     }
 
     public boolean estaVacia(){
-        if (tamanio == 0){
-            return true;
-        }
-        return false;
+        return tamanio == 0;
     }
 
     public Nodo<E> darPrimerNodo(){

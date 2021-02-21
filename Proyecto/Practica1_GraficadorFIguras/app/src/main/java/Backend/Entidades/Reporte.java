@@ -1,6 +1,8 @@
 package Backend.Entidades;
 
-public class Reporte {
+import java.io.Serializable;
+
+public class Reporte implements Serializable {
     String lexema;
     //String nombreReporte;//esto no es necesario, porque la lista será quien lleve el nombre de la agrupación, es decir: animacion, color, figura u objeto, operacion y errores
 

@@ -1,11 +1,13 @@
 package Backend.Entidades;
 
-public class Token {
-    private String nombreToken;
-    private String lexema;
-    private Token tokenAnterior;//no es necesario add null como default porque de todos modos si es el primero lo que termianrá conteniendo es nada "" xD
-    private int fila;
-    private int columna;
+import java.io.Serializable;
+
+public class Token implements Serializable {
+    private final String nombreToken;
+    private final String lexema;
+    private final Token tokenAnterior;//no es necesario add null como default porque de todos modos si es el primero lo que termianrá conteniendo es nada "" xD
+    private final int fila;
+    private final int columna;
     private Token tokenSiguiente;
 
     public Token(String elNombreToken, String elLexema, Token elAnterior, int laFila, int laColumna){

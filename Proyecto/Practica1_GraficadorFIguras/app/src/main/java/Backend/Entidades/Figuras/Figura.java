@@ -1,8 +1,10 @@
 package Backend.Entidades.Figuras;
 
+import java.io.Serializable;
+
 import Backend.Animacion.Animacion;
 
-public class Figura {
+public class Figura implements Serializable {
     public double posicionInicialX;//si en dado caso se requiere en la nimación un float, entonces pasarás todo esto a float, sino, dejarás el parseo en los parámetros para dibujar las figuras xD
     public double posicionInicialY;
     public Animacion animacion;

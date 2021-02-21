@@ -1,6 +1,8 @@
 package Backend.Entidades.Figuras;
 
-public class Poligono extends Figura{
+import java.io.Serializable;
+
+public class Poligono extends Figura implements Serializable {
     public double largo;
     public double ancho;
     public double cantidadDeLados;

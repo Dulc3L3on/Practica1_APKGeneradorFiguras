@@ -296,7 +296,7 @@ class CUP$parser_Figuras$actions {
 		int erradoleft = ((java_cup.runtime.Symbol)CUP$parser_Figuras$stack.peek()).left;
 		int erradoright = ((java_cup.runtime.Symbol)CUP$parser_Figuras$stack.peek()).right;
 		Object errado = (Object)((java_cup.runtime.Symbol) CUP$parser_Figuras$stack.peek()).value;
-		manejadorErrores.establecerError("error de instruccion", null, null, (String)errado, erradoleft, erradoright);
+		manejadorErrores.establecerError("error de instruccion", null, null, Token.parseToken(errado).darLexema(), erradoleft, erradoright);
               CUP$parser_Figuras$result = parser.getSymbolFactory().newSymbol("instruccion",0, ((java_cup.runtime.Symbol)CUP$parser_Figuras$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser_Figuras$stack.peek()), RESULT);
             }
           return CUP$parser_Figuras$result;
@@ -317,7 +317,7 @@ class CUP$parser_Figuras$actions {
 		int tipoleft = ((java_cup.runtime.Symbol)CUP$parser_Figuras$stack.elementAt(CUP$parser_Figuras$top-1)).left;
 		int tiporight = ((java_cup.runtime.Symbol)CUP$parser_Figuras$stack.elementAt(CUP$parser_Figuras$top-1)).right;
 		Object tipo = (Object)((java_cup.runtime.Symbol) CUP$parser_Figuras$stack.elementAt(CUP$parser_Figuras$top-1)).value;
-		recolectorFiguras.agregarFigura(tipo.toString(), operador.todosLosParametrosCorrectos(), operador.darParametrosNumericos());
+		recolectorFiguras.agregarFigura(Token.parseToken(tipo).darLexema(), operador);
               CUP$parser_Figuras$result = parser.getSymbolFactory().newSymbol("tipo",2, ((java_cup.runtime.Symbol)CUP$parser_Figuras$stack.elementAt(CUP$parser_Figuras$top-1)), ((java_cup.runtime.Symbol)CUP$parser_Figuras$stack.peek()), RESULT);
             }
           return CUP$parser_Figuras$result;
@@ -329,7 +329,7 @@ class CUP$parser_Figuras$actions {
 		int tipoleft = ((java_cup.runtime.Symbol)CUP$parser_Figuras$stack.elementAt(CUP$parser_Figuras$top-1)).left;
 		int tiporight = ((java_cup.runtime.Symbol)CUP$parser_Figuras$stack.elementAt(CUP$parser_Figuras$top-1)).right;
 		Object tipo = (Object)((java_cup.runtime.Symbol) CUP$parser_Figuras$stack.elementAt(CUP$parser_Figuras$top-1)).value;
-		recolectorFiguras.agregarFigura(tipo.toString(), operador.todosLosParametrosCorrectos(), operador.darParametrosNumericos());
+		recolectorFiguras.agregarFigura(Token.parseToken(tipo).darLexema(), operador);
               CUP$parser_Figuras$result = parser.getSymbolFactory().newSymbol("tipo",2, ((java_cup.runtime.Symbol)CUP$parser_Figuras$stack.elementAt(CUP$parser_Figuras$top-1)), ((java_cup.runtime.Symbol)CUP$parser_Figuras$stack.peek()), RESULT);
             }
           return CUP$parser_Figuras$result;
@@ -341,7 +341,7 @@ class CUP$parser_Figuras$actions {
 		int tipoleft = ((java_cup.runtime.Symbol)CUP$parser_Figuras$stack.elementAt(CUP$parser_Figuras$top-1)).left;
 		int tiporight = ((java_cup.runtime.Symbol)CUP$parser_Figuras$stack.elementAt(CUP$parser_Figuras$top-1)).right;
 		Object tipo = (Object)((java_cup.runtime.Symbol) CUP$parser_Figuras$stack.elementAt(CUP$parser_Figuras$top-1)).value;
-		recolectorFiguras.agregarFigura(tipo.toString(), operador.todosLosParametrosCorrectos(), operador.darParametrosNumericos());
+		recolectorFiguras.agregarFigura(Token.parseToken(tipo).darLexema(), operador);
               CUP$parser_Figuras$result = parser.getSymbolFactory().newSymbol("tipo",2, ((java_cup.runtime.Symbol)CUP$parser_Figuras$stack.elementAt(CUP$parser_Figuras$top-1)), ((java_cup.runtime.Symbol)CUP$parser_Figuras$stack.peek()), RESULT);
             }
           return CUP$parser_Figuras$result;
@@ -353,7 +353,7 @@ class CUP$parser_Figuras$actions {
 		int tipoleft = ((java_cup.runtime.Symbol)CUP$parser_Figuras$stack.elementAt(CUP$parser_Figuras$top-1)).left;
 		int tiporight = ((java_cup.runtime.Symbol)CUP$parser_Figuras$stack.elementAt(CUP$parser_Figuras$top-1)).right;
 		Object tipo = (Object)((java_cup.runtime.Symbol) CUP$parser_Figuras$stack.elementAt(CUP$parser_Figuras$top-1)).value;
-		recolectorFiguras.agregarFigura(tipo.toString(), operador.todosLosParametrosCorrectos(), operador.darParametrosNumericos());
+		recolectorFiguras.agregarFigura(Token.parseToken(tipo).darLexema(), operador);
               CUP$parser_Figuras$result = parser.getSymbolFactory().newSymbol("tipo",2, ((java_cup.runtime.Symbol)CUP$parser_Figuras$stack.elementAt(CUP$parser_Figuras$top-1)), ((java_cup.runtime.Symbol)CUP$parser_Figuras$stack.peek()), RESULT);
             }
           return CUP$parser_Figuras$result;
@@ -365,7 +365,7 @@ class CUP$parser_Figuras$actions {
 		int tipoleft = ((java_cup.runtime.Symbol)CUP$parser_Figuras$stack.elementAt(CUP$parser_Figuras$top-1)).left;
 		int tiporight = ((java_cup.runtime.Symbol)CUP$parser_Figuras$stack.elementAt(CUP$parser_Figuras$top-1)).right;
 		Object tipo = (Object)((java_cup.runtime.Symbol) CUP$parser_Figuras$stack.elementAt(CUP$parser_Figuras$top-1)).value;
-		recolectorFiguras.agregarFigura(tipo.toString(), operador.todosLosParametrosCorrectos(), operador.darParametrosNumericos());
+		recolectorFiguras.agregarFigura(Token.parseToken(tipo).darLexema(), operador);
               CUP$parser_Figuras$result = parser.getSymbolFactory().newSymbol("tipo",2, ((java_cup.runtime.Symbol)CUP$parser_Figuras$stack.elementAt(CUP$parser_Figuras$top-1)), ((java_cup.runtime.Symbol)CUP$parser_Figuras$stack.peek()), RESULT);
             }
           return CUP$parser_Figuras$result;
@@ -377,7 +377,7 @@ class CUP$parser_Figuras$actions {
 		int erradoleft = ((java_cup.runtime.Symbol)CUP$parser_Figuras$stack.peek()).left;
 		int erradoright = ((java_cup.runtime.Symbol)CUP$parser_Figuras$stack.peek()).right;
 		Object errado = (Object)((java_cup.runtime.Symbol) CUP$parser_Figuras$stack.peek()).value;
-		manejadorErrores.establecerError("Falta Tipo Figura", null, null, (String)errado, erradoleft, erradoright);
+		manejadorErrores.establecerError("Falta Tipo Figura", null, null, Token.parseToken(errado).darLexema(), erradoleft, erradoright);
               CUP$parser_Figuras$result = parser.getSymbolFactory().newSymbol("tipo",2, ((java_cup.runtime.Symbol)CUP$parser_Figuras$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser_Figuras$stack.peek()), RESULT);
             }
           return CUP$parser_Figuras$result;
@@ -389,7 +389,7 @@ class CUP$parser_Figuras$actions {
 		int animacionleft = ((java_cup.runtime.Symbol)CUP$parser_Figuras$stack.elementAt(CUP$parser_Figuras$top-1)).left;
 		int animacionright = ((java_cup.runtime.Symbol)CUP$parser_Figuras$stack.elementAt(CUP$parser_Figuras$top-1)).right;
 		Object animacion = (Object)((java_cup.runtime.Symbol) CUP$parser_Figuras$stack.elementAt(CUP$parser_Figuras$top-1)).value;
-		recolectorFiguras.agregarAnimacion((String)animacion, operador.todosLosParametrosCorrectos(), operador.darParametrosNumericos());
+		recolectorFiguras.agregarAnimacion(Token.parseToken(animacion).darLexema(), operador);
               CUP$parser_Figuras$result = parser.getSymbolFactory().newSymbol("tresParam",3, ((java_cup.runtime.Symbol)CUP$parser_Figuras$stack.elementAt(CUP$parser_Figuras$top-6)), ((java_cup.runtime.Symbol)CUP$parser_Figuras$stack.peek()), RESULT);
             }
           return CUP$parser_Figuras$result;
@@ -401,7 +401,7 @@ class CUP$parser_Figuras$actions {
 		int erradoleft = ((java_cup.runtime.Symbol)CUP$parser_Figuras$stack.elementAt(CUP$parser_Figuras$top-1)).left;
 		int erradoright = ((java_cup.runtime.Symbol)CUP$parser_Figuras$stack.elementAt(CUP$parser_Figuras$top-1)).right;
 		Object errado = (Object)((java_cup.runtime.Symbol) CUP$parser_Figuras$stack.elementAt(CUP$parser_Figuras$top-1)).value;
-		manejadorErrores.establecerError("error en 3 Parametros", null, null, (String)errado, erradoleft, erradoright);
+		manejadorErrores.establecerError("error en 3 Parametros", null, null, Token.parseToken(errado).darLexema(), erradoleft, erradoright);
               CUP$parser_Figuras$result = parser.getSymbolFactory().newSymbol("tresParam",3, ((java_cup.runtime.Symbol)CUP$parser_Figuras$stack.elementAt(CUP$parser_Figuras$top-1)), ((java_cup.runtime.Symbol)CUP$parser_Figuras$stack.peek()), RESULT);
             }
           return CUP$parser_Figuras$result;
@@ -413,7 +413,7 @@ class CUP$parser_Figuras$actions {
 		int colorleft = ((java_cup.runtime.Symbol)CUP$parser_Figuras$stack.elementAt(CUP$parser_Figuras$top-1)).left;
 		int colorright = ((java_cup.runtime.Symbol)CUP$parser_Figuras$stack.elementAt(CUP$parser_Figuras$top-1)).right;
 		Object color = (Object)((java_cup.runtime.Symbol) CUP$parser_Figuras$stack.elementAt(CUP$parser_Figuras$top-1)).value;
-		recolectorFiguras.establecerColor(color.toString());
+		recolectorFiguras.establecerColor(Token.parseToken(color).darLexema());
               CUP$parser_Figuras$result = parser.getSymbolFactory().newSymbol("cuatroParam",4, ((java_cup.runtime.Symbol)CUP$parser_Figuras$stack.elementAt(CUP$parser_Figuras$top-8)), ((java_cup.runtime.Symbol)CUP$parser_Figuras$stack.peek()), RESULT);
             }
           return CUP$parser_Figuras$result;
@@ -425,7 +425,7 @@ class CUP$parser_Figuras$actions {
 		int erradoleft = ((java_cup.runtime.Symbol)CUP$parser_Figuras$stack.elementAt(CUP$parser_Figuras$top-1)).left;
 		int erradoright = ((java_cup.runtime.Symbol)CUP$parser_Figuras$stack.elementAt(CUP$parser_Figuras$top-1)).right;
 		Object errado = (Object)((java_cup.runtime.Symbol) CUP$parser_Figuras$stack.elementAt(CUP$parser_Figuras$top-1)).value;
-		manejadorErrores.establecerError("error en 4 Parametros", null, null, (String)errado, erradoleft, erradoright);
+		manejadorErrores.establecerError("error en 4 Parametros", null, null, Token.parseToken(errado).darLexema(), erradoleft, erradoright);
               CUP$parser_Figuras$result = parser.getSymbolFactory().newSymbol("cuatroParam",4, ((java_cup.runtime.Symbol)CUP$parser_Figuras$stack.elementAt(CUP$parser_Figuras$top-1)), ((java_cup.runtime.Symbol)CUP$parser_Figuras$stack.peek()), RESULT);
             }
           return CUP$parser_Figuras$result;
@@ -437,7 +437,7 @@ class CUP$parser_Figuras$actions {
 		int colorleft = ((java_cup.runtime.Symbol)CUP$parser_Figuras$stack.elementAt(CUP$parser_Figuras$top-1)).left;
 		int colorright = ((java_cup.runtime.Symbol)CUP$parser_Figuras$stack.elementAt(CUP$parser_Figuras$top-1)).right;
 		Object color = (Object)((java_cup.runtime.Symbol) CUP$parser_Figuras$stack.elementAt(CUP$parser_Figuras$top-1)).value;
-		recolectorFiguras.establecerColor(color.toString());
+		recolectorFiguras.establecerColor(Token.parseToken(color).darLexema());
               CUP$parser_Figuras$result = parser.getSymbolFactory().newSymbol("cincoParam",5, ((java_cup.runtime.Symbol)CUP$parser_Figuras$stack.elementAt(CUP$parser_Figuras$top-10)), ((java_cup.runtime.Symbol)CUP$parser_Figuras$stack.peek()), RESULT);
             }
           return CUP$parser_Figuras$result;
@@ -449,7 +449,7 @@ class CUP$parser_Figuras$actions {
 		int erradoleft = ((java_cup.runtime.Symbol)CUP$parser_Figuras$stack.elementAt(CUP$parser_Figuras$top-1)).left;
 		int erradoright = ((java_cup.runtime.Symbol)CUP$parser_Figuras$stack.elementAt(CUP$parser_Figuras$top-1)).right;
 		Object errado = (Object)((java_cup.runtime.Symbol) CUP$parser_Figuras$stack.elementAt(CUP$parser_Figuras$top-1)).value;
-		manejadorErrores.establecerError("error en 5 Parametros", null, null, (String)errado, erradoleft, erradoright);
+		manejadorErrores.establecerError("error en 5 Parametros", null, null, Token.parseToken(errado).darLexema(), erradoleft, erradoright);
               CUP$parser_Figuras$result = parser.getSymbolFactory().newSymbol("cincoParam",5, ((java_cup.runtime.Symbol)CUP$parser_Figuras$stack.elementAt(CUP$parser_Figuras$top-1)), ((java_cup.runtime.Symbol)CUP$parser_Figuras$stack.peek()), RESULT);
             }
           return CUP$parser_Figuras$result;
@@ -461,7 +461,7 @@ class CUP$parser_Figuras$actions {
 		int colorleft = ((java_cup.runtime.Symbol)CUP$parser_Figuras$stack.elementAt(CUP$parser_Figuras$top-1)).left;
 		int colorright = ((java_cup.runtime.Symbol)CUP$parser_Figuras$stack.elementAt(CUP$parser_Figuras$top-1)).right;
 		Object color = (Object)((java_cup.runtime.Symbol) CUP$parser_Figuras$stack.elementAt(CUP$parser_Figuras$top-1)).value;
-		recolectorFiguras.establecerColor(color.toString());
+		recolectorFiguras.establecerColor(Token.parseToken(color).darLexema());
               CUP$parser_Figuras$result = parser.getSymbolFactory().newSymbol("seisParam",6, ((java_cup.runtime.Symbol)CUP$parser_Figuras$stack.elementAt(CUP$parser_Figuras$top-12)), ((java_cup.runtime.Symbol)CUP$parser_Figuras$stack.peek()), RESULT);
             }
           return CUP$parser_Figuras$result;
@@ -473,7 +473,7 @@ class CUP$parser_Figuras$actions {
 		int erradoleft = ((java_cup.runtime.Symbol)CUP$parser_Figuras$stack.elementAt(CUP$parser_Figuras$top-1)).left;
 		int erradoright = ((java_cup.runtime.Symbol)CUP$parser_Figuras$stack.elementAt(CUP$parser_Figuras$top-1)).right;
 		Object errado = (Object)((java_cup.runtime.Symbol) CUP$parser_Figuras$stack.elementAt(CUP$parser_Figuras$top-1)).value;
-		manejadorErrores.establecerError("error en 6 Parametros", null, null, (String)errado, erradoleft, erradoright);
+		manejadorErrores.establecerError("error en 6 Parametros", null, null, Token.parseToken(errado).darLexema(), erradoleft, erradoright);
               CUP$parser_Figuras$result = parser.getSymbolFactory().newSymbol("seisParam",6, ((java_cup.runtime.Symbol)CUP$parser_Figuras$stack.elementAt(CUP$parser_Figuras$top-1)), ((java_cup.runtime.Symbol)CUP$parser_Figuras$stack.peek()), RESULT);
             }
           return CUP$parser_Figuras$result;
@@ -546,7 +546,7 @@ class CUP$parser_Figuras$actions {
 		int numleft = ((java_cup.runtime.Symbol)CUP$parser_Figuras$stack.peek()).left;
 		int numright = ((java_cup.runtime.Symbol)CUP$parser_Figuras$stack.peek()).right;
 		Object num = (Object)((java_cup.runtime.Symbol) CUP$parser_Figuras$stack.peek()).value;
-		operador.establecerNumeroAOperar(Double.parseDouble((String) num));/*se envía el # al método que asigna este val al 1ero [el del arr] o al 2do*/
+		operador.establecerNumeroAOperar(Double.parseDouble(Token.parseToken(num).darLexema()));/*se envía el # al método que asigna este val al 1ero [el del arr] o al 2do*/
               CUP$parser_Figuras$result = parser.getSymbolFactory().newSymbol("parametroNumerico",8, ((java_cup.runtime.Symbol)CUP$parser_Figuras$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser_Figuras$stack.peek()), RESULT);
             }
           return CUP$parser_Figuras$result;
@@ -567,7 +567,7 @@ class CUP$parser_Figuras$actions {
 		int erradoleft = ((java_cup.runtime.Symbol)CUP$parser_Figuras$stack.elementAt(CUP$parser_Figuras$top-1)).left;
 		int erradoright = ((java_cup.runtime.Symbol)CUP$parser_Figuras$stack.elementAt(CUP$parser_Figuras$top-1)).right;
 		Object errado = (Object)((java_cup.runtime.Symbol) CUP$parser_Figuras$stack.elementAt(CUP$parser_Figuras$top-1)).value;
-		manejadorErrores.establecerError("Operacion invalida", Token.parseToken(errado).darNombreAnterior(), Token.parseToken(errado).darNombreDelToken(), (String)errado, erradoleft, erradoright);
+		manejadorErrores.establecerError("Operacion invalida", Token.parseToken(errado).darNombreAnterior(), Token.parseToken(errado).darNombreDelToken(), Token.parseToken(errado).darLexema(), erradoleft, erradoright);
               CUP$parser_Figuras$result = parser.getSymbolFactory().newSymbol("parametroNumerico",8, ((java_cup.runtime.Symbol)CUP$parser_Figuras$stack.elementAt(CUP$parser_Figuras$top-1)), ((java_cup.runtime.Symbol)CUP$parser_Figuras$stack.peek()), RESULT);
             }
           return CUP$parser_Figuras$result;

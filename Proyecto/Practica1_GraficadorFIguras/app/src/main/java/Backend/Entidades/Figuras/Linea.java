@@ -1,8 +1,10 @@
 package Backend.Entidades.Figuras;
 
-public class Linea extends Figura{
-    private double posicionFinalX;
-    private double posicionFinalY;
+import java.io.Serializable;
+
+public class Linea extends Figura implements Serializable {
+    private final double posicionFinalX;
+    private final double posicionFinalY;
 
     public Linea(double posicionInicialX, double posicionInicialY, double laPosicionFinalX,
                  double laPosicionFinalY, int color){

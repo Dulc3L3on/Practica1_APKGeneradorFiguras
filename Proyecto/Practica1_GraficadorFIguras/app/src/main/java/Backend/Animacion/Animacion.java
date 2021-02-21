@@ -1,11 +1,13 @@
 package Backend.Animacion;
 
-public class Animacion {
-    private double puntoInicialX;
-    private double puntoInicialY;
-    private double puntoFinalX;
-    private double puntoFinalY;
-    private String tipo;
+import java.io.Serializable;
+
+public class Animacion implements Serializable {
+    private final double puntoInicialX;
+    private final double puntoInicialY;
+    private final double puntoFinalX;
+    private final double puntoFinalY;
+    private final String tipo;
 
     public Animacion(double puntoPartidaX, double puntoPartidaY, double puntoDestinoX,
                      double puntoDestinoY, String tipoAnimacion){

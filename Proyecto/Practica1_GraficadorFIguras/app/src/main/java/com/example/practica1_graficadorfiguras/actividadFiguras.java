@@ -8,7 +8,6 @@ import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
-import java.io.Serializable;
 import java.security.NoSuchAlgorithmException;
 
 import Backend.Entidades.Figuras.Figura;
@@ -25,7 +24,7 @@ public class actividadFiguras extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_actividadFiguras);
+        setContentView(R.layout.activity_actividad_figuras);
 
         botonAnimar = findViewById(R.id.btn_animar);
         botonVerReportes = findViewById(R.id.btn_verReportes);
@@ -36,7 +35,7 @@ public class actividadFiguras extends AppCompatActivity {
         }
 
         //se recibe el contenedor en el que se mostrarán los datos, en este caso sería un layout que permita libertad en colocación...
-        ConstraintLayout capa = (ConstraintLayout) findViewById(R.id.actividadFiguras);
+        ConstraintLayout capa = findViewById(R.id.actividad_figuras);
         LienzoFiguras lienzo = new LienzoFiguras(this, pilaDeFiguras);
         capa.addView(lienzo);//se agrega la pantalla en la que se mostrarán las figuras... sería bonito que el fondo fuera cuadriculado xD
 
@@ -68,10 +67,10 @@ public class actividadFiguras extends AppCompatActivity {
     }
 
     private void ejecutarVentanaReportes(){
-        Intent intentoMOstrarReportes = new Intent(this, actividadReportes.class);
+        Intent intentoMOstrarReportes = new Intent(this, activitieReportes.class);
         Bundle paqueteDeReportes = new Bundle();
 
-        paqueteDeReportes.putSerializable("listaDeReportes", (Serializable) listadoDeListadoDeReportes);
+        paqueteDeReportes.putSerializable("listaDeReportes", listadoDeListadoDeReportes);
 
         intentoMOstrarReportes.putExtras(paqueteDeReportes);
         startActivity(intentoMOstrarReportes);

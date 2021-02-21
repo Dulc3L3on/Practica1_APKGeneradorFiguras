@@ -1,6 +1,8 @@
 package Backend.EstructurasDeDatos;
 
-public class Nodo <E>{
+import java.io.Serializable;
+
+public class Nodo <E> implements Serializable {
     public E contenido;
     public Nodo<E> nodoSiguiente;
 

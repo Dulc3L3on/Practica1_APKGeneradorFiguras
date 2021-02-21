@@ -5,14 +5,15 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.view.View;
 
+import Backend.Entidades.Figuras.Circulo;
 import Backend.Entidades.Figuras.Figura;
 import Backend.EstructurasDeDatos.Pila;
 import Backend.Manejadores.Procesador;
 
 public class LienzoFiguras extends View {
-    private Pila<Figura> pilaDeFiguras;
-    private Paint pintor;
-    private Procesador procesadorSolicitudes;
+    private final Pila<Figura> pilaDeFiguras;
+    private final Paint pintor;
+    private final Procesador procesadorSolicitudes;
 
     public LienzoFiguras(Context contexto, Pila<Figura> pilaFiguras){
         super(contexto);
@@ -24,9 +25,15 @@ public class LienzoFiguras extends View {
 
     @Override
     protected  void onDraw(Canvas canvas){
-        canvas.drawARGB(229, 232, 232, 0 );//si no te gusta entonces usa 217, 221, 224, 0 xD
+        canvas.drawARGB(63, 186, 179, 169 );//si no te gusta entonces usa 217, 221, 224, 0 xD
 
-        procesadorSolicitudes.ProcesarSolicitudGraficar(pilaDeFiguras, pintor, canvas);
+        Circulo circulo = (Circulo) pilaDeFiguras.darYEncolarUltimoElemnento();
+        pintor.setStyle(Paint.Style.FILL);//para que se rellene
+        pintor.setColor(circulo.color);
+        canvas.drawCircle((float)circulo.posicionInicialX, (float)circulo.posicionInicialY, (float)circulo.darRadio(), pintor);
+
+
+       /*procesadorSolicitudes.ProcesarSolicitudGraficar(pilaDeFiguras, pintor, canvas);*//*por una de 2 cosas es que si se mostó este liezo, 1. que de verdad el método esté mal ó que el no poseer esta llamada al método sea lo que tiene registrado en los bitecodes xD*/
     }
 
 

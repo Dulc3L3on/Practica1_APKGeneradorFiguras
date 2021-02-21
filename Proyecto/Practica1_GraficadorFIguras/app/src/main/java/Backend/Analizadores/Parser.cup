@@ -57,7 +57,7 @@ precedence left MULT, DIV;
 start with instruccion;/*esta nueva forma de instrucción hará que no tenga que preocuparme por el arreglo que almacena los valores numéricos, puesto que la animación lo requerirá luego de haberse empleado los datos que se habían almacenado dentro de sí xD*/
 instruccion ::= graficar animar instruccion
              |
-	         | error: errado    {:manejadorErrores.establecerError("error de instruccion", null, null, (String)errado, erradoleft, erradoright);:}/*voy a usar las var y no los métodos en cada prod de error [en los paráms en los que pueda usar las var xD], para que no olvides que con la modif de la var , left y right, obtienes la fila y columna respectivamente...*/
+	         | error: errado    {:manejadorErrores.establecerError("error de instruccion", null, null, Token.parseToken(errado).darLexema(), erradoleft, erradoright);:}/*voy a usar las var y no los métodos en cada prod de error [en los paráms en los que pueda usar las var xD], para que no olvides que con la modif de la var , left y right, obtienes la fila y columna respectivamente...*/
              ;/*si al hacer las pruebas, se mira que no es necesario, porque es "redundnate" (aunque no estoy segura que eso pase xD)  reemplazarás este .cup por el que está en git xD [en el que indicas que se haría el mejoramiento de recu de errores en graf y ani xD"*/
 
 graficar ::= GRAFICAR tipo
@@ -66,28 +66,28 @@ graficar ::= GRAFICAR tipo
 /*parametrosGraficar ::= tipo
    esto genera conlicto con la prod "error" en animar... por lo cual este error (el que venga de más o no venga la palabra reservada con la que inicia la instrucción) deberá ser tratado o referido desde la prod de error de instruccion... al igual que con animar...;*/
 
-tipo ::= CIRCULO:tipo cuatroParam                        {:recolectorFiguras.agregarFigura(tipo.toString(), operador.todosLosParametrosCorrectos(), operador.darParametrosNumericos());:}/*en este punto reinicia sus valores operador, puesto que sabe que posiblemente tenga que trabajar con otro parám...*/
-        | CUADRADO:tipo cuatroParam                      {:recolectorFiguras.agregarFigura(tipo.toString(), operador.todosLosParametrosCorrectos(), operador.darParametrosNumericos());:}
-        | RECTANGULO:tipo cincoParam                     {:recolectorFiguras.agregarFigura(tipo.toString(), operador.todosLosParametrosCorrectos(), operador.darParametrosNumericos());:}
-        | LINEA:tipo cincoParam                          {:recolectorFiguras.agregarFigura(tipo.toString(), operador.todosLosParametrosCorrectos(), operador.darParametrosNumericos());:}
-        | POLIGONO:tipo seisParam                        {:recolectorFiguras.agregarFigura(tipo.toString(), operador.todosLosParametrosCorrectos(), operador.darParametrosNumericos());:}
-        | error:errado                               {:manejadorErrores.establecerError("Falta Tipo Figura", null, null, (String)errado, erradoleft, erradoright);:}/*debes averiguar como enviar la línea y columna*/
+tipo ::= CIRCULO:tipo cuatroParam                        {:recolectorFiguras.agregarFigura(Token.parseToken(tipo).darLexema(), operador);:}/*en este punto reinicia sus valores operador, puesto que sabe que posiblemente tenga que trabajar con otro parám...*/
+        | CUADRADO:tipo cuatroParam                      {:recolectorFiguras.agregarFigura(Token.parseToken(tipo).darLexema(), operador);:}
+        | RECTANGULO:tipo cincoParam                     {:recolectorFiguras.agregarFigura(Token.parseToken(tipo).darLexema(), operador);:}
+        | LINEA:tipo cincoParam                          {:recolectorFiguras.agregarFigura(Token.parseToken(tipo).darLexema(), operador);:}
+        | POLIGONO:tipo seisParam                        {:recolectorFiguras.agregarFigura(Token.parseToken(tipo).darLexema(), operador);:}
+        | error:errado                               {:manejadorErrores.establecerError("Falta Tipo Figura", null, null, Token.parseToken(errado).darLexema(), erradoleft, erradoright);:}/*debes averiguar como enviar la línea y columna*/
         ;
 
-tresParam ::= APER valorNumerico COMA valorNumerico COMA ANIMACION:animacion CIER             {:recolectorFiguras.agregarAnimacion((String)animacion, operador.todosLosParametrosCorrectos(), operador.darParametrosNumericos());:}
-            | error:errado CIER                                                                      {:manejadorErrores.establecerError("error en 3 Parametros", null, null, (String)errado, erradoleft, erradoright);:}
+tresParam ::= APER valorNumerico COMA valorNumerico COMA ANIMACION:animacion CIER             {:recolectorFiguras.agregarAnimacion(Token.parseToken(animacion).darLexema(), operador);:}
+            | error:errado CIER                                                                      {:manejadorErrores.establecerError("error en 3 Parametros", null, null, Token.parseToken(errado).darLexema(), erradoleft, erradoright);:}
             ;
 
-cuatroParam ::= APER valorNumerico COMA valorNumerico COMA valorNumerico COMA COLOR:color CIER    {:recolectorFiguras.establecerColor(color.toString());:}
-            | error:errado CIER                                                                       {:manejadorErrores.establecerError("error en 4 Parametros", null, null, (String)errado, erradoleft, erradoright);:}
+cuatroParam ::= APER valorNumerico COMA valorNumerico COMA valorNumerico COMA COLOR:color CIER    {:recolectorFiguras.establecerColor(Token.parseToken(color).darLexema());:}
+            | error:errado CIER                                                                       {:manejadorErrores.establecerError("error en 4 Parametros", null, null, Token.parseToken(errado).darLexema(), erradoleft, erradoright);:}
             ;
 
-cincoParam ::= APER valorNumerico COMA valorNumerico COMA valorNumerico COMA valorNumerico COMA COLOR:color CIER      {:recolectorFiguras.establecerColor(color.toString());:}
-            | error:errado CIER                                                                        {:manejadorErrores.establecerError("error en 5 Parametros", null, null, (String)errado, erradoleft, erradoright);:}
+cincoParam ::= APER valorNumerico COMA valorNumerico COMA valorNumerico COMA valorNumerico COMA COLOR:color CIER      {:recolectorFiguras.establecerColor(Token.parseToken(color).darLexema());:}
+            | error:errado CIER                                                                        {:manejadorErrores.establecerError("error en 5 Parametros", null, null, Token.parseToken(errado).darLexema(), erradoleft, erradoright);:}
             ;
 
-seisParam ::= APER valorNumerico COMA valorNumerico COMA valorNumerico COMA valorNumerico COMA valorNumerico COMA COLOR:color CIER        {:recolectorFiguras.establecerColor(color.toString());:}
-            | error:errado CIER                                                                        {:manejadorErrores.establecerError("error en 6 Parametros", null, null, (String)errado, erradoleft, erradoright);:}
+seisParam ::= APER valorNumerico COMA valorNumerico COMA valorNumerico COMA valorNumerico COMA valorNumerico COMA COLOR:color CIER        {:recolectorFiguras.establecerColor(Token.parseToken(color).darLexema());:}
+            | error:errado CIER                                                                        {:manejadorErrores.establecerError("error en 6 Parametros", null, null, Token.parseToken(errado).darLexema(), erradoleft, erradoright);:}
             ;
 
 valorNumerico ::= parametroNumerico     {:operador.prepararVariablesParaProximoValor();:}/*recuerda que esta axn se exe luego de haber terminado con todo lo que incolucre a parametroNumerico...*/
@@ -101,9 +101,9 @@ parametroNumerico ::= parametroNumerico SUM:sum parametroNumerico      {:operado
                                                                      manejadorReportes.agregarReportesDeOcurrencia(manejadorErrores.darListaErroresHallados(), Token.parseToken(mult));:}
                 | parametroNumerico DIV:div parametroNumerico          {:operador.establecerTipoOperacion("DIV", Token.parseToken(div).darFila(), Token.parseToken(div).darColumna());
                                                                      manejadorReportes.agregarReportesDeOcurrencia(manejadorErrores.darListaErroresHallados(), Token.parseToken(div));:}
-                | NUMERO: num                                      {:operador.establecerNumeroAOperar(Double.parseDouble((String) num));/*se envía el # al método que asigna este val al 1ero [el del arr] o al 2do*/:}
+                | NUMERO: num                                      {:operador.establecerNumeroAOperar(Double.parseDouble(Token.parseToken(num).darLexema()));/*se envía el # al método que asigna este val al 1ero [el del arr] o al 2do*/:}
                 | APER parametroNumerico CIER                  {:System.out.println("nada por hacer, pero creo que estos afectarían el desarrollo del proced...");:}/*por eso hay que hacer pruebas...*/
-                | error:errado COMA                              {:manejadorErrores.establecerError("Operacion invalida", Token.parseToken(errado).darNombreAnterior(), Token.parseToken(errado).darNombreDelToken(), (String)errado, erradoleft, erradoright);:}/*tambien debes averiguar como enviar los nombres y el anteriro :| xD... sino tendrás que enviar "parámetros numéricos incorrectos, se esperaba operación o #..."*/
+                | error:errado COMA                              {:manejadorErrores.establecerError("Operacion invalida", Token.parseToken(errado).darNombreAnterior(), Token.parseToken(errado).darNombreDelToken(), Token.parseToken(errado).darLexema(), erradoleft, erradoright);:}/*tambien debes averiguar como enviar los nombres y el anteriro :| xD... sino tendrás que enviar "parámetros numéricos incorrectos, se esperaba operación o #..."*/
                   /*coloco este pues SIEMPRE depués de 
                   un val # hay [o debería xD] haber una
                   COMA*/
@@ -121,3 +121,6 @@ animar ::= ANIMAR OBJETO ANTERIOR tresParam    {:System.out.println("nada por ha
 /*este es el correcto, xD sii funciona xD uuu gracias DIOS xD*/
 /*de esta forma habrá que ver cómo se enviarán los errore por no venir "graficar" o "animar" "objeto""antetior" puesto que para ello estaban esas producciones de error*/
 /*recuerda que para el e solo se deja el lado der del | vacío xD*/
+
+
+/*recuerda que si la instruccion*/

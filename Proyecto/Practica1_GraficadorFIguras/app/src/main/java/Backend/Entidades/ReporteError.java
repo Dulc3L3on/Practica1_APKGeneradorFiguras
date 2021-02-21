@@ -1,8 +1,10 @@
 package Backend.Entidades;
 
-public class ReporteError extends ReporteOcurrencias{
-    private String tipoError;
-    private String descripcion;
+import java.io.Serializable;
+
+public class ReporteError extends ReporteOcurrencias implements Serializable {
+    private final String tipoError;
+    private final String descripcion;
 
     public ReporteError(String elLexema, int laLinea, int laColumna, String elTipoDeError, String laDescripcion){
         super(elLexema, laLinea, laColumna);

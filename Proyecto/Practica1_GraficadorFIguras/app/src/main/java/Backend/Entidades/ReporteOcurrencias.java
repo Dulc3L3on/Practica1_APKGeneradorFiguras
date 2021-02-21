@@ -1,6 +1,8 @@
 package Backend.Entidades;
 
-public class ReporteOcurrencias extends Reporte{
+import java.io.Serializable;
+
+public class ReporteOcurrencias extends Reporte implements Serializable {
     String numeroLinea;//bueno, creo que al final de cuentas tendría que ser String[al igual que el #column...] porque debo enviar este dato a la tabla... a menos que lo vuelva todo a String como en HTML xD
     String numeroColumna;
     String ocurrencia;//Esto involucra al anterior, al lexema y al siguiente...

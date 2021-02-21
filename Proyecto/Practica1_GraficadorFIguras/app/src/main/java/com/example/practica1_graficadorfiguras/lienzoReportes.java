@@ -9,7 +9,7 @@ import Backend.EstructurasDeDatos.ListaEnlazada;
 
 
 public class lienzoReportes extends View {
-    private ListaEnlazada<ListaEnlazada<Reporte>> listadoDeListadoDeReportes;
+    private final ListaEnlazada<ListaEnlazada<Reporte>> listadoDeListadoDeReportes;
 
 
     public lienzoReportes(Context contexto, ListaEnlazada<ListaEnlazada<Reporte>> elListadoDeListadoDeReportes){
