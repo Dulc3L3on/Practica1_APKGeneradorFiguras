@@ -49,11 +49,13 @@ public class ListaEnlazada <E> implements Serializable {
         E elementoAEliminar = ultimoNodo.contenido;
 
         Nodo<E> nodoAuxiliar = primerNodo;
-        for (int elementoActual=1; elementoActual < (tamanio-1); elementoActual++){//puesto que se entra estando en el primer elemento, por ello debe ini en 1, para así llegar al penúltimo xD
+        for (int elementoActual=2; elementoActual < tamanio; elementoActual++){//puesto que se entra estando en el primer elemento, por ello debe ini en 1, para así llegar al penúltimo xD... mejor así xD porque en la vuelta con i=2 obtniene el nodo #2 xD
             nodoAuxiliar = nodoAuxiliar.nodoSiguiente;
         }
         nodoAuxiliar.nodoSiguiente = null;//se pierde la referencia del último nodo, por lo cual se pierde la dirección del último contenido...
         ultimoNodo = nodoAuxiliar;
+        tamanio--;//pues es una eliminación y al ser así hay que disminuir, pues si en otros lados se empleen este y el método para añadir y no se hace la disminución, entonces parecería que la lista está creciendo cuando en realidad solo está reacomodando la pila por medio del movimiento de la fila xd [Es decir ingresado a los primeros al final xD]
+
         return elementoAEliminar;
     }
 

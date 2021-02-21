@@ -6,7 +6,6 @@ import android.graphics.Paint;
 import android.view.View;
 
 import Backend.Entidades.Figuras.Figura;
-import Backend.Entidades.Figuras.Linea;
 import Backend.EstructurasDeDatos.Pila;
 import Backend.Manejadores.Procesador;
 
@@ -45,13 +44,13 @@ public class LienzoFiguras extends View {
                 (float)rectangulo.posicionInicialY+(float)rectangulo.largo, (float)rectangulo.posicionInicialX+(float)rectangulo.ancho, pintor);*/
 
 
-        Linea linea = (Linea) pilaDeFiguras.darYEncolarUltimoElemnento();
+        /*Linea linea = (Linea) pilaDeFiguras.darYEncolarUltimoElemnento();
         pintor.setStrokeWidth(3);//para que no sea tan delagada y así, se pueda ver mejor xD
         pintor.setColor(linea.color);
         canvas.drawLine((float)linea.darPosicionInicialX(), (float)linea.darPosicionIncialY(),
-                (float)linea.darPosicionFinalX(), (float)linea.darPosicionFinalY(), pintor);
+                (float)linea.darPosicionFinalX(), (float)linea.darPosicionFinalY(), pintor);*/
 
-        /*procesadorSolicitudes.ProcesarSolicitudGraficar(pilaDeFiguras, pintor, canvas);*//*por una de 2 cosas es que si se mostó este liezo, 1. que de verdad el método esté mal ó que el no poseer esta llamada al método sea lo que tiene registrado en los bitecodes xD*/
+        procesadorSolicitudes.ProcesarSolicitudGraficar(pilaDeFiguras, pintor, canvas);/*por una de 2 cosas es que si se mostó este liezo, 1. que de verdad el método esté mal ó que el no poseer esta llamada al método sea lo que tiene registrado en los bitecodes xD*/
 
     }
 
