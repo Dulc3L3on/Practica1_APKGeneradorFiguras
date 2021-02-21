@@ -12,11 +12,11 @@ import java.security.NoSuchAlgorithmException;
 
 import Backend.Entidades.Figuras.Figura;
 import Backend.Entidades.Reporte;
+import Backend.EstructurasDeDatos.Cola;
 import Backend.EstructurasDeDatos.ListaEnlazada;
-import Backend.EstructurasDeDatos.Pila;
 
 public class actividadFiguras extends AppCompatActivity {
-    private Pila<Figura> pilaDeFiguras;
+    private Cola<Figura> colaDeFiguras;
     private ListaEnlazada<ListaEnlazada<Reporte>> listadoDeListadoDeReportes;
     private Button botonAnimar;
     private Button botonVerReportes;
@@ -36,7 +36,7 @@ public class actividadFiguras extends AppCompatActivity {
 
         //se recibe el contenedor en el que se mostrarán los datos, en este caso sería un layout que permita libertad en colocación...
         ConstraintLayout capa = findViewById(R.id.actividad_figuras);
-        LienzoFiguras lienzo = new LienzoFiguras(this, pilaDeFiguras);
+        LienzoFiguras lienzo = new LienzoFiguras(this, colaDeFiguras);
         capa.addView(lienzo);//se agrega la pantalla en la que se mostrarán las figuras... sería bonito que el fondo fuera cuadriculado xD
 
         botonAnimar.setOnClickListener(new View.OnClickListener() {
@@ -59,7 +59,7 @@ public class actividadFiguras extends AppCompatActivity {
         Bundle paqueteDatos = getIntent().getExtras();
 
         if(paqueteDatos!=null){//pero en este caso, siempre será así porque solo se compila si había mas de alguna texto, de lo contrario no xD...aunque quizá sea util por la existencia de las flechita para regresar que todos los tel traen...
-            pilaDeFiguras = (Pila<Figura>) paqueteDatos.getSerializable("pilaDeFiguras");
+            colaDeFiguras = (Cola<Figura>) paqueteDatos.getSerializable("pilaDeFiguras");
             listadoDeListadoDeReportes = (ListaEnlazada<ListaEnlazada<Reporte>>) paqueteDatos.getSerializable("listadoReportes");//Esta será enviada a otra pantalla, de manera similar a como se hizo para enviar estos datos aquí... solo que en este caso,sucederá al preionar el btn "ver Reportes" o solo Reportes xD
 
         }

@@ -9,13 +9,13 @@ import Backend.Entidades.Figuras.Figura;
 import Backend.Entidades.Figuras.Linea;
 import Backend.Entidades.Figuras.Poligono;
 import Backend.Entidades.Figuras.Rectangulo;
-import Backend.EstructurasDeDatos.Pila;
+import Backend.EstructurasDeDatos.Cola;
 
 public class Procesador {
 
-    public void ProcesarSolicitudGraficar(Pila<Figura> pilaDeFiguras, Paint pintor, Canvas canvas){
-        for (int figuraActual= 0; figuraActual<pilaDeFiguras.darTamanio(); figuraActual++){
-            Figura figura = pilaDeFiguras.darYEncolarUltimoElemnento();//a parte de encolarlo también lo da xD
+    public void ProcesarSolicitudGraficar(Cola<Figura> colaDeFiguras, Paint pintor, Canvas canvas){
+        for (int figuraActual = 0; figuraActual< colaDeFiguras.darTamanio(); figuraActual++){
+            Figura figura = colaDeFiguras.darYEncolarPrimerElemnento();//a parte de encolarlo también lo da xD
 
             switch (figura.getClass().getSimpleName()){//yo me acuerdo que así obtengo bien el nombre del hijo xD, sino revisa el KOnquest :v :C xD
                 case "Circulo"://Está listo
@@ -39,7 +39,7 @@ public class Procesador {
                     pintor.setColor(figura.color);
                     canvas.drawRect((float)rectangulo.posicionInicialX, (float)rectangulo.posicionInicialY,
                             (float)rectangulo.posicionInicialX+(float)rectangulo.ancho, (float)rectangulo.posicionInicialY+(float)rectangulo.largo, pintor);//puesto que así al igual que con el cuadrado,
-                    //se asegura que el punto inicial, sea el verdadero punto inicial xD
+                    //se asegura que el punto inicial, sea el verdadero punto inicial xD [creo que debes colocar primero la Y y luego la X para dar el largo y ancho, respectivamente xD]
                     break;
                 case "Linea"://listisímia xD, a esta no le vamos a hacer la sumatoria del punto 1 al punto 2, porque no es como que diga largo de la línea, además se sobreentiende que esas son las posiciones literales y no relativas al punto inicial... en cambio en el caso del cuadrado y rectangulo así si porque dice ancho y es como decir punto2enX a partir del punto inicial... xD
                     Linea linea = (Linea) figura;
@@ -58,7 +58,7 @@ public class Procesador {
         }
     }
 
-    public void procesarSolicitudAnimar(Pila<Figura> pilaDeFiguras){
+    public void procesarSolicitudAnimar(Cola<Figura> colaDeFiguras){
 
     }
 

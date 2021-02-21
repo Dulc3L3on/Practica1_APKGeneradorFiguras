@@ -7,20 +7,20 @@ import Backend.Entidades.Figuras.Figura;
 import Backend.Entidades.Figuras.Linea;
 import Backend.Entidades.Figuras.Poligono;
 import Backend.Entidades.Figuras.Rectangulo;
-import Backend.EstructurasDeDatos.Pila;
+import Backend.EstructurasDeDatos.Cola;
 import Backend.Manejadores.ManejadorColores;
 import Backend.Manejadores.Operador;
 
 public class RecolectorFiguras {
     private String color;
     private boolean seCreoCorrectamenteLaFigura;//no se tendrá problemas de que posea un valor que no corresponde a la situación de la figura por el hecho de que cada vez que se cree una figura nueva, esta variable actualizará su valor xD
-    private final Pila<Figura> pilaDeFiguras;
+    private final Cola<Figura> colaDeFiguras;
     private final ManejadorColores manejadorColores;
     //no se requerirá una var global para el tipo de figuras por el hecho de que es posible add la animación en la prod de 3parám porque ya se tiene todo lo nec para hacer la revisión :3 xD
     //al final de cuentas no serán necesarias vars globales pues es posible recibirlas de una vez, y eso evita que se tenga dudas de si se recibió bien el valor de figura, color y tipo de animación cuando se rquiera emplear de estar var...
 
     public RecolectorFiguras(){
-        pilaDeFiguras = new Pila<>();
+        colaDeFiguras = new Cola<>();
         manejadorColores = new ManejadorColores();
         seCreoCorrectamenteLaFigura = true;
         color = null;
@@ -39,7 +39,7 @@ public class RecolectorFiguras {
 
             //Se instancia el obj obj Animación y se envía como parám a la figura en el toe de la pila... también se hace la revisión de los parámetros recibidos, como en el método para instanciar la figura
             //Animacion animacion = new Animacion()
-            pilaDeFiguras.inspeccionarUltimoElemento().establecerAnimacion(new Animacion(parametrosNumericos[0], parametrosNumericos[1],//Recuerda que puedes hacer esto, pues el método de inspeccionar devuelve al obj, por ello al app el punto sobre el método es como si lo estuvieras haciendo sobre el obj porque ese es su "resultado"
+            colaDeFiguras.inspeccionarPrimerElemento().establecerAnimacion(new Animacion(parametrosNumericos[0], parametrosNumericos[1],//Recuerda que puedes hacer esto, pues el método de inspeccionar devuelve al obj, por ello al app el punto sobre el método es como si lo estuvieras haciendo sobre el obj porque ese es su "resultado"
                     parametrosNumericos[2], parametrosNumericos[3], tipoAnimacion));//:3 xD
         }
 
@@ -61,23 +61,23 @@ public class RecolectorFiguras {
 
             switch (tipoFigura){//Este tipo de figura es el lexema...
                 case "circulo":
-                    pilaDeFiguras.apilar(new Circulo(parametrosNumericos[0], parametrosNumericos[1], parametrosNumericos[2],
+                    colaDeFiguras.encolar(new Circulo(parametrosNumericos[0], parametrosNumericos[1], parametrosNumericos[2],
                             manejadorColores.darColorCorrespondiente(color)));//Solo hace falta llenar los parámetros xD
                     break;
                 case "cuadrado":
-                    pilaDeFiguras.apilar(new Cuadrado(parametrosNumericos[0], parametrosNumericos[1], parametrosNumericos[2],
+                    colaDeFiguras.encolar(new Cuadrado(parametrosNumericos[0], parametrosNumericos[1], parametrosNumericos[2],
                             manejadorColores.darColorCorrespondiente(color)));
                     break;
                 case "rectangulo":
-                    pilaDeFiguras.apilar(new Rectangulo(parametrosNumericos[0], parametrosNumericos[1], parametrosNumericos[2],
+                    colaDeFiguras.encolar(new Rectangulo(parametrosNumericos[0], parametrosNumericos[1], parametrosNumericos[2],
                             parametrosNumericos[3], manejadorColores.darColorCorrespondiente(color)));
                     break;
                 case "poligono":
-                    pilaDeFiguras.apilar(new Poligono(parametrosNumericos[0], parametrosNumericos[1], parametrosNumericos[2],
+                    colaDeFiguras.encolar(new Poligono(parametrosNumericos[0], parametrosNumericos[1], parametrosNumericos[2],
                             parametrosNumericos[3], parametrosNumericos[4], manejadorColores.darColorCorrespondiente(color)));
                     break;
                 case "linea":
-                    pilaDeFiguras.apilar(new Linea(parametrosNumericos[0], parametrosNumericos[1], parametrosNumericos[2],
+                    colaDeFiguras.encolar(new Linea(parametrosNumericos[0], parametrosNumericos[1], parametrosNumericos[2],
                             parametrosNumericos[3], manejadorColores.darColorCorrespondiente(color)));
                     break;
                 default:
@@ -99,8 +99,8 @@ public class RecolectorFiguras {
     /*se empleará en el método del parser que se encargará
     * de dar la pila a la actividad principal, para emplear
     * lo que contiente...*/
-    public Pila<Figura> darPilaDeFiguras(){
-        return pilaDeFiguras;
+    public Cola<Figura> darPilaDeFiguras(){
+        return colaDeFiguras;
     }
 
 }

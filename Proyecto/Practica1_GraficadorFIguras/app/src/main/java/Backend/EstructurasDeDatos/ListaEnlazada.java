@@ -16,17 +16,6 @@ public class ListaEnlazada <E> implements Serializable {
         nombre = elNombre;
     }
 
-    public void anadirAlFinal(E elemento){//yo sé que los métodos de inserción funcionan, por ello no veo necesario devolver un boolean para saberlo...
-        if(estaVacia()){
-            primerNodo=ultimoNodo= new Nodo<E>(elemento);
-            tamanio++;
-        }
-        else{
-            ultimoNodo=ultimoNodo.nodoSiguiente= new Nodo<E>(elemento);
-            tamanio++;
-        }
-    }
-
     /**
      * será empleado cuando el último se saque ... creo que será para la exe
      * de las animaciones de las figuras... si es que se mantendrá la pila a menos que
@@ -41,22 +30,51 @@ public class ListaEnlazada <E> implements Serializable {
         tamanio++;
     }
 
+    public void anadirAlFinal(E elemento){//yo sé que los métodos de inserción funcionan, por ello no veo necesario devolver un boolean para saberlo...
+        if(estaVacia()){
+            primerNodo=ultimoNodo= new Nodo<E>(elemento);
+            tamanio++;
+        }
+        else{
+            ultimoNodo=ultimoNodo.nodoSiguiente= new Nodo<E>(elemento);
+            tamanio++;
+        }
+    }
+
+    public E darPrimerElemento(){//Se que no es necesario[igual que dar el último contenido], pero por si acaso alguna vez no quiesieras tener que estar importando los nodos...
+        return primerNodo.contenido;
+    }
+
     public E darUltimoElemento(){
         return ultimoNodo.contenido;
     }
 
-    public E darYEliminarUltimoELemento(){
-        E elementoAEliminar = ultimoNodo.contenido;
+    public E darYEliminarPrimerElemento(){
+        if(tamanio>0){
+            E elementoAEliminar = primerNodo.contenido;
 
-        Nodo<E> nodoAuxiliar = primerNodo;
-        for (int elementoActual=2; elementoActual < tamanio; elementoActual++){//puesto que se entra estando en el primer elemento, por ello debe ini en 1, para así llegar al penúltimo xD... mejor así xD porque en la vuelta con i=2 obtniene el nodo #2 xD
-            nodoAuxiliar = nodoAuxiliar.nodoSiguiente;
+            primerNodo = primerNodo.nodoSiguiente;//daría lo mismo si hubiera sido el aux un nodo y hubiera dicho 1erNodo = nodoAux.siguiente... puesto que Java de primero hace lo de la derecha para así saber a que es = lo de la izquierda xD
+            tamanio--;
+            return elementoAEliminar;
         }
-        nodoAuxiliar.nodoSiguiente = null;//se pierde la referencia del último nodo, por lo cual se pierde la dirección del último contenido...
-        ultimoNodo = nodoAuxiliar;
-        tamanio--;//pues es una eliminación y al ser así hay que disminuir, pues si en otros lados se empleen este y el método para añadir y no se hace la disminución, entonces parecería que la lista está creciendo cuando en realidad solo está reacomodando la pila por medio del movimiento de la fila xd [Es decir ingresado a los primeros al final xD]
+        return null;
+    }
 
-        return elementoAEliminar;
+    public E darYEliminarUltimoELemento(){
+        if(tamanio>0){
+            E elementoAEliminar = ultimoNodo.contenido;
+
+            Nodo<E> nodoAuxiliar = primerNodo;
+            for (int elementoActual=2; elementoActual < tamanio; elementoActual++){//puesto que se entra estando en el primer elemento, por ello debe ini en 1, para así llegar al penúltimo xD... mejor así xD porque en la vuelta con i=2 obtniene el nodo #2 xD
+                nodoAuxiliar = nodoAuxiliar.nodoSiguiente;
+            }
+            nodoAuxiliar.nodoSiguiente = null;//se pierde la referencia del último nodo, por lo cual se pierde la dirección del último contenido...
+            ultimoNodo = nodoAuxiliar;
+            tamanio--;//pues es una eliminación y al ser así hay que disminuir, pues si en otros lados se empleen este y el método para añadir y no se hace la disminución, entonces parecería que la lista está creciendo cuando en realidad solo está reacomodando la pila por medio del movimiento de la fila xd [Es decir ingresado a los primeros al final xD]
+
+            return elementoAEliminar;
+        }
+        return null;
     }
 
     public void limpiarLista(){

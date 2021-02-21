@@ -19,7 +19,7 @@ import Backend.Entidades.Figuras.Figura;
 import Backend.Entidades.Reporte;
 import Backend.Entidades.ReporteError;
 import Backend.EstructurasDeDatos.ListaEnlazada;
-import Backend.EstructurasDeDatos.Pila;
+import Backend.EstructurasDeDatos.Cola;
 
 public class MainActivity extends AppCompatActivity {
     private EditText areaEntrada;
@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
                     parser.recibirListadoErroresYReportesUso(lexer.darListadoErrores(), lexer.darListadoDeListadoDeReportes());
                     //se ejecuta el análisis sintáctico
                     parser.parse();
-                    ejecutarResultadoDeAnalisis(parser.darListadoDeErrores(), parser.darListadoDeListadoDeReportes(), parser.darPilaDeFiguras());
+                    ejecutarResultadoDeAnalisis(parser.darListadoDeErrores(), parser.darListadoDeListadoDeReportes(), parser.darColaDeFiguras());
 
                 } catch (NoSuchAlgorithmException e) { //error en onclick
                     System.out.println("error al dar click -> "+e.getMessage());
@@ -78,12 +78,12 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void ejecutarResultadoDeAnalisis(ListaEnlazada<ReporteError> listadoDeErrores, ListaEnlazada<ListaEnlazada<Reporte>> listadoDeReportes, Pila<Figura> pilaDeFiguras){
+    private void ejecutarResultadoDeAnalisis(ListaEnlazada<ReporteError> listadoDeErrores, ListaEnlazada<ListaEnlazada<Reporte>> listadoDeReportes, Cola<Figura> colaDeFiguras){
         if(listadoDeErrores.estaVacia()){//Se muestra la pantalla que contiene las figuras y 2 btn 1 para mostrarReportes y otro para animar [auqnue creo que debería ir de primero el de animar, pues sería a el más utilizado]...
             Intent nuevoIntento = new Intent(this, actividadFiguras.class);//El paquete y la clase en la que se encuentra la actvidad [o pantalla] nueva
             Bundle nuevoPaqueteDatos = new Bundle();
 
-            nuevoPaqueteDatos.putSerializable("pilaDeFiguras", pilaDeFiguras);//este método es similar al del request, en el qe se le enviaba el id con el que se iba a emplear el dato envuado en el otro parámetro xD, solo que esn este caso, requiere de un obj más en este caso intent para hacer la trancisión, que sería lo eqquivalente a la redirección en JSP's xD
+            nuevoPaqueteDatos.putSerializable("pilaDeFiguras", colaDeFiguras);//este método es similar al del request, en el qe se le enviaba el id con el que se iba a emplear el dato envuado en el otro parámetro xD, solo que esn este caso, requiere de un obj más en este caso intent para hacer la trancisión, que sería lo eqquivalente a la redirección en JSP's xD
             nuevoPaqueteDatos.putSerializable("listadoReportes", listadoDeReportes);//si da errores es porque estas clases deben implementar a Serializable...
 
             nuevoIntento.putExtras(nuevoPaqueteDatos);

@@ -14,7 +14,7 @@ import Backend.Entidades.Reporte;
 import Backend.Entidades.ReporteError;
 import Backend.Entidades.Token;
 import Backend.EstructurasDeDatos.ListaEnlazada;
-import Backend.EstructurasDeDatos.Pila;
+import Backend.EstructurasDeDatos.Cola;
 import Backend.Entidades.Figuras.Figura;
 import java_cup.runtime.XMLElement;
 
@@ -220,7 +220,7 @@ public class parser_Figuras extends java_cup.runtime.lr_parser {
         operador = new Operador(manejadorErrores);
 	}
 
-	public Pila<Figura> darPilaDeFiguras(){
+	public Cola<Figura> darColaDeFiguras(){
 	    return recolectorFiguras.darPilaDeFiguras();
 	}
 

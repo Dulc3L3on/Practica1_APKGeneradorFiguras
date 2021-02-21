@@ -8,7 +8,7 @@ import Backend.Entidades.Reporte;/*agregado*/
 import Backend.Entidades.ReporteError;/*agregado*/
 import Backend.Entidades.Token;/*agregado*/
 import Backend.EstructurasDeDatos.ListaEnlazada;/*agregado*/
-import Backend.EstructurasDeDatos.Pila;/*agregado*/
+import Backend.EstructurasDeDatos.Cola;/*agregado*/
 import Backend.Entidades.Figuras.Figura;
 
 class parser_Figuras;
@@ -33,7 +33,7 @@ parser code{:
         operador = new Operador(manejadorErrores);
 	}
 
-	public Pila<Figura> darPilaDeFiguras(){
+	public Cola<Figura> darColaDeFiguras(){
 	    return recolectorFiguras.darPilaDeFiguras();
 	}
 
