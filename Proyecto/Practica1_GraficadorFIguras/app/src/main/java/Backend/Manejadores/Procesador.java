@@ -2,6 +2,7 @@ package Backend.Manejadores;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Path;
 
 import Backend.Entidades.Figuras.Circulo;
 import Backend.Entidades.Figuras.Cuadrado;
@@ -51,15 +52,83 @@ public class Procesador {
                 case "Poligono":
                     Poligono poligono = (Poligono) figura;
                     pintor.setStyle(Paint.Style.FILL);//para que se rellene
-                    pintor.setColor(figura.color);
-                    //Aún no sé como dibujar un polígono xD
+                    pintor.setColor(poligono.color);
+                    canvas.drawPath(procesarPoligono(poligono), pintor);
                     break;
             }
         }
     }
 
-    public void procesarSolicitudAnimar(Cola<Figura> colaDeFiguras){
+    public void procesarSolicitudAnimar(Cola<Figura> colaDeFiguras){//pendiente
 
     }
 
+    private Path procesarPoligono(Poligono poligono){
+        double[][] puntosAUnir = hallarPuntos(poligono);
+        Path trazo = new Path();
+
+        trazo.moveTo((float) poligono.posicionInicialX, (float) poligono.posicionInicialY);
+        for (int puntoActual = 0; puntoActual < puntosAUnir.length; puntoActual++){
+            trazo.lineTo((float) puntosAUnir[puntoActual][0], (float) puntosAUnir[puntoActual][1]);//si no sale, es porque hay que hacer de primero el moveTo, para que se posicione como primer punto, entonces al ser así según lo queestoy pensando ahorita, debería comenzar en el for en el 2do punto... pero en ese caso el close, se haría la punto del moveTo [orque aunque se haya hecho con otro método, de todos modos es el primer punto] o con el primero en el que se usó el lineTo? fmmm, a ver se ha dicho xD
+        }
+        trazo.close();//vamos a ver si este métodoo se encarga de unir el último punto con el primero, si no.... sé que se podría add una linea pue ya tengos los puntos, peor la cuestión es la animada...
+        return trazo;
+    }
+
+    private double[][] hallarPuntos(Poligono poligono){
+        double[][]centroPoligono = {{poligono.posicionInicialX+ ((poligono.ancho)/2), poligono.posicionInicialY+((poligono.largo)/2)}};//puedo hacer esto por el hecho de que al hacer los ajustes [cuando no esté encerrado en un cuadro sino en un rectángulo, se sumará posi o negatimaente el valor faltante, por lo cual t
+        double gradosEnCadaLado = (2*Math.PI)/poligono.cantidadDeLados;
+        double[][] verticesPoligono = new double[(int) poligono.cantidadDeLados][2];
+
+        for (int parejaPuntosActual= 0; parejaPuntosActual < verticesPoligono.length; parejaPuntosActual++){
+            asignarPuntos(poligono, gradosEnCadaLado, verticesPoligono, parejaPuntosActual);//debe hacerse de primero, sino estarías obviando el primer punto xD
+            gradosEnCadaLado+= ((2*Math.PI)/poligono.cantidadDeLados);
+        }//fin del for ubicador de puntos del polígono..
+
+        return ajustarALargoReal(poligono.posicionInicialY,verticesPoligono, poligono.ancho, poligono.largo, centroPoligono);
+    }
+
+    private double[][] asignarPuntos(Poligono poligono, double gradosActuales, double[][] verticesDelPoligono, int verticeActual){
+        if(gradosActuales<=(Math.PI/2)){
+            verticesDelPoligono[verticeActual][0] = (poligono.ancho/2)*Math.cos(gradosActuales);//recuerda que se acordó que el ancho haría la función de diametro siempre; por esa razón el ajuste se hace de la manera que se codificó abajito xD
+            verticesDelPoligono[verticeActual][1] = (poligono.ancho/2)*Math.sin(gradosActuales);
+        }
+        if(gradosActuales > (Math.PI/2) && gradosActuales <= (Math.PI)){
+            verticesDelPoligono[verticeActual][0] = (poligono.ancho/2)*Math.cos((Math.PI)-gradosActuales);
+            verticesDelPoligono[verticeActual][1] = (poligono.ancho/2)*Math.sin((Math.PI)-gradosActuales);
+        }
+        if(gradosActuales > (Math.PI) && gradosActuales <= ((3*Math.PI)/2)){
+            verticesDelPoligono[verticeActual][0] = (poligono.ancho/2)*Math.cos(gradosActuales-(Math.PI));
+            verticesDelPoligono[verticeActual][1] = (poligono.ancho/2)*Math.sin(gradosActuales-(Math.PI));
+        }
+        if(gradosActuales > ((3*Math.PI)/2) && gradosActuales <= (2*Math.PI)){//aunque también hubiera podido ser un else...puesto que sabemos que nnca va a pasarse de 2pi, lo  cual es lo que debe suceder...
+            verticesDelPoligono[verticeActual][0] = (poligono.ancho/2)*Math.cos((2*Math.PI)-gradosActuales);
+            verticesDelPoligono[verticeActual][1] = (poligono.ancho/2)*Math.sin((2*Math.PI)-gradosActuales);
+        }
+        return verticesDelPoligono;//no me acuerdo si los arreglos se pasan por referencia o por valor, creo que es por refrencia, pero por si acaso no, mejor lo devuelvo xD
+    }
+
+    private double[][] ajustarALargoReal(double puntoInicialY, double puntosDelPoligonoCuadrangular[][], double ancho, double largo, double[][] centro){
+        if(ancho != largo){//pues sino, quiere decir que sí está encerrado en un cuadrado, es decir que si es un poligono cuadrangular xD
+            for (int puntoActualX =0; puntoActualX<puntosDelPoligonoCuadrangular.length; puntoActualX++){
+                if(ancho>largo){
+                    if((puntosDelPoligonoCuadrangular[puntoActualX][1]+puntoInicialY)< centro[0][1]){//Se debe hacer la traslación puesto que el centro sí se encuentra ubicado en la posicón real es decir, no posee solo tamaños, como en el caso de los puntos, sino una posición en el espacio bidimensional xD
+                        puntosDelPoligonoCuadrangular[puntoActualX][1] += (ancho-largo);
+
+                    }else if((puntosDelPoligonoCuadrangular[puntoActualX][1]+puntoInicialY)> centro[0][1]){//lo coloco así porque los puntos que justo están en el centro, no tendrían porque moverse xD
+                        puntosDelPoligonoCuadrangular[puntoActualX][1] -= (ancho-largo);
+                    }
+                }else{
+                    if((puntosDelPoligonoCuadrangular[puntoActualX][1]+puntoInicialY)< centro[0][1]){
+                        puntosDelPoligonoCuadrangular[puntoActualX][1] -= (largo-ancho);
+
+                    }else if((puntosDelPoligonoCuadrangular[puntoActualX][1]+puntoInicialY)> centro[0][1]){
+                        puntosDelPoligonoCuadrangular[puntoActualX][1] += (largo-ancho);
+                    }
+                }//se miraba más como debe ser cuando le sumabas el centro? o era cuando no le sumabas nada :| xD, prueba, de todos modos solo puede ser una de estas 2 opciones, que de ahí ya no tocaste nada xD
+                //Ahor así debuggea!!!
+            }
+        }
+        return puntosDelPoligonoCuadrangular;//pues se debe devolver el arreglo, sea que se halla modificado o no xD
+    }
 }

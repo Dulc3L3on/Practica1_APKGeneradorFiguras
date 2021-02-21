@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Practica1_GraficadorFIguras">
-        <activity android:name=".activitieReportes"></activity>
+        <activity android:name=".sublienzo_poligono"></activity>
+        <activity android:name=".activitieReportes" />
         <activity android:name=".actividadFiguras" />
         <activity android:name=".lienzoReportes" />
         <activity android:name=".LienzoFiguras" />
