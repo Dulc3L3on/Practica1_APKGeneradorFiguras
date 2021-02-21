@@ -78,7 +78,7 @@ public class RecolectorFiguras {
                     break;
                 case "linea":
                     pilaDeFiguras.apilar(new Linea(parametrosNumericos[0], parametrosNumericos[1], parametrosNumericos[2],
-                            parametrosNumericos[4], manejadorColores.darColorCorrespondiente(color)));
+                            parametrosNumericos[3], manejadorColores.darColorCorrespondiente(color)));
                     break;
                 default:
                     //jamás nunca se entrará aquí xD

@@ -17,7 +17,7 @@ public class Poligono extends Figura implements Serializable {
 
     public double darCantidadDeLados(){
         return cantidadDeLados;
-    }
+    }//aunque en realidad la var de cdad de lados debería ser de tipo entero, porque no pueden haber 3.5 lados :v xD, bueno sí pero no xD
 
     public double darLargo(){
         return largo;

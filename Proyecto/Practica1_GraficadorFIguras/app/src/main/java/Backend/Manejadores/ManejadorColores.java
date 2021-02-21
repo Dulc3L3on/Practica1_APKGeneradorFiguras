@@ -15,13 +15,13 @@ public class ManejadorColores {
             case "amarillo":
                 return (Color.parseColor("#E5EE78"));
             case "naranja":
-                return (Color.parseColor("#E6B34F "));
+                return (Color.parseColor("#E6B34F"));
             case "morado":
                 return (Color.parseColor("#6B4B9A"));//Está mas bonito este: #924B9A o el violeta xD #9A4B7A
             case "cafe":
                 return (Color.parseColor("#9A5D4B"));//o este xD #7A574C
         }
-        return (Color.parseColor("#272123"));//Es decir para el negro...
+        return (Color.parseColor("#2D2F33"));//Es decir para el negro...
     }
 
 }
