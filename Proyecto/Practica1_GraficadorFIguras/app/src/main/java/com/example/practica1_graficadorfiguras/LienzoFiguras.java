@@ -39,8 +39,8 @@ public class LienzoFiguras extends View {
         }
     }//pdt: yo sé que la figura nunca podrá ser nula, por eso no reviso eso xD
 
-    public void animar(){
-        procesadorSolicitudes.procesarSolicitudAnimar(figura, this);
+    public void animar(boolean esElPrimero){
+        procesadorSolicitudes.procesarSolicitudAnimar(esElPrimero, figura, this);
     }
 
 

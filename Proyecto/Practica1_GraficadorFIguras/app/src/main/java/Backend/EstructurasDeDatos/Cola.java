@@ -17,9 +17,13 @@ public class Cola<T> implements Serializable {//no es necesaria su existencia, p
         return elementosCola.darPrimerElemento();
     }//No elimina de la pila, solo se da para que se inspeccione...
 
+    public T inspeccionarUltimoElemento(){
+        return elementosCola.darUltimoElemento();
+    }
+
     public T darYEncolarPrimerElemnento(){//xD es que prácticamente hacer esto es usar la funcionalidad de una cola xD
         T elementoPrimeroAntiguo = elementosCola.darYEliminarPrimerElemento();
-        elementosCola.anadirAlFinal(elementoPrimeroAntiguo);//si hay un error, puede que sea el método anadirAlPrincipio... auqnue tb dudaría del método que elimina y da el último xD
+        elementosCola.anadirAlFinal(elementoPrimeroAntiguo);//debe ser añadir al último puesto que en la cola el orden de llegada es el normal... xD
 
         return elementoPrimeroAntiguo;
     }

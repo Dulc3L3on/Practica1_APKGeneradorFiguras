@@ -9,6 +9,7 @@ public class ManejadorErrores {//base terminada xD [es decir que puede tener cb 
     public ManejadorErrores(ListaEnlazada<ReporteError> listaErroresDelLexer){
         if(listaErroresDelLexer.estaVacia()){//Esto quiere decir que allá en el lexer tb deberás importar esta clase...
             listaDeErrores = new ListaEnlazada<>();
+            listaDeErrores.establecerNombreDeLista("Error");
         }
         listaDeErrores = listaErroresDelLexer;
     }

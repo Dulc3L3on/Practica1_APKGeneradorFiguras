@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import java.io.StringReader;
 import java.security.NoSuchAlgorithmException;
@@ -64,7 +65,8 @@ public class MainActivity extends AppCompatActivity {
                     parser.recibirListadoErroresYReportesUso(lexer.darListadoErrores(), lexer.darListadoDeListadoDeReportes());
                     //se ejecuta el análisis sintáctico
                     parser.parse();
-                    ejecutarResultadoDeAnalisis(parser.darListadoDeErrores(), parser.darListadoDeListadoDeReportes(), parser.darColaDeFiguras());
+                    ConstraintLayout capa = findViewById(R.id.main_activity);
+                    ejecutarResultadoDeAnalisis(capa, parser.darListadoDeErrores(), parser.darListadoDeListadoDeReportes(), parser.darColaDeFiguras());//Si no funciona es por la capa del aactivity main :v xD ...
 
                 } catch (NoSuchAlgorithmException e) { //error en onclick
                     System.out.println("error al dar click -> "+e.getMessage());
@@ -78,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void ejecutarResultadoDeAnalisis(ListaEnlazada<ReporteError> listadoDeErrores, ListaEnlazada<ListaEnlazada<Reporte>> listadoDeReportes, Cola<Figura> colaDeFiguras){
+    private void ejecutarResultadoDeAnalisis(ConstraintLayout capa, ListaEnlazada<ReporteError> listadoDeErrores, ListaEnlazada<ListaEnlazada<Reporte>> listadoDeReportes, Cola<Figura> colaDeFiguras){
         if(listadoDeErrores.estaVacia()){//Se muestra la pantalla que contiene las figuras y 2 btn 1 para mostrarReportes y otro para animar [auqnue creo que debería ir de primero el de animar, pues sería a el más utilizado]...
             Intent nuevoIntento = new Intent(this, actividadFiguras.class);//El paquete y la clase en la que se encuentra la actvidad [o pantalla] nueva
             Bundle nuevoPaqueteDatos = new Bundle();
@@ -88,7 +90,13 @@ public class MainActivity extends AppCompatActivity {
 
             nuevoIntento.putExtras(nuevoPaqueteDatos);
             startActivity(nuevoIntento);
+        }else{
+            lienzoReportes lienzoReportes = new lienzoReportes(this, new ListaEnlazada<>(),listadoDeErrores);//puesto que se sabe que aquí se llegará cuando el listado de errores no esté vcío, por lo caul no es de interés el listao de los demás reportes...
+            lienzoReportes.setTop(capa.getHeight()+25);//hay que averiguar cuanto tiene de altura la pantalla principal, hasta el borde inferior de los botones...
+            //yo peinso que este alto es el que abarca hasta el borde inferior de los botones... sino, pues averigua el bottom de los btn y ya xD
+            capa.addView(lienzoReportes);
         }
+
         //sino entonces lo que se hace es add una tabla abajo de los botones para que visualice los reportes y así puede corregir de una vez lo que corresponde...
         //y luego se actualiza la pantalla [no se si es neceario xD, pero por si acaso xD]
     }

@@ -36,6 +36,7 @@ public class ManejadorReportes {
         if(listadoDeErrores.estaVacia()){
             if(listadoReportesDeOcurrencia.estaVacia()){
                 listadoDeListadoDeReportes.anadirAlFinal(listadoReportesDeOcurrencia);
+                listadoReportesDeOcurrencia.establecerNombreDeLista("Operador");
             }
 
             listadoReportesDeOcurrencia.anadirAlFinal(new ReporteOcurrencias(token.darLexemaAnterior()+token.darLexema()+token.darLexemaSiguiente(), token.darFila(), token.darColumna()));
@@ -46,7 +47,7 @@ public class ManejadorReportes {
         Nodo<ListaEnlazada<Reporte>> nodoAuxiliar = listadoDeListadoDeReportes.darPrimerNodo();
 
         for (int listaReportesActual = 0; listaReportesActual < listadoDeListadoDeReportes.darTamanio(); listaReportesActual++){
-            if(nodoAuxiliar.contenido.darPrimerNodo().equals(nombreReporte)){
+            if(nodoAuxiliar.contenido.darNombre().equals(nombreReporte)){//aquí hacía falta obtener el nombre de la lista, si no no habría como hacer la comparación...
                 return nodoAuxiliar.contenido;//Se retorna la lista correspondiente... xD
             }
         }

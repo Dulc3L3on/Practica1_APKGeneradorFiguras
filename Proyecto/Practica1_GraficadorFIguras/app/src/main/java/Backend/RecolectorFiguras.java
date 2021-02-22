@@ -36,11 +36,25 @@ public class RecolectorFiguras {
     public void agregarAnimacion(String tipoAnimacion, Operador operador){//estos se obtenien del obj operador instanciado en el parser.cup...
         if(seCreoCorrectamenteLaFigura && operador.todosLosParametrosCorrectos()){
             double parametrosNumericos[] = operador.darParametrosNumericos();
+            Figura figura  = colaDeFiguras.inspeccionarUltimoElemento();//Debe ser el último elemento, pues la animación corresponde al último que llegó a la estructura [En este caso una cola], sino todas las animaciones, estarían siendo asignadas a la cabeza siempre xD
 
             //Se instancia el obj obj Animación y se envía como parám a la figura en el toe de la pila... también se hace la revisión de los parámetros recibidos, como en el método para instanciar la figura
-            //Animacion animacion = new Animacion()
-            colaDeFiguras.inspeccionarPrimerElemento().establecerAnimacion(new Animacion(parametrosNumericos[0], parametrosNumericos[1],//Recuerda que puedes hacer esto, pues el método de inspeccionar devuelve al obj, por ello al app el punto sobre el método es como si lo estuvieras haciendo sobre el obj porque ese es su "resultado"
-                    parametrosNumericos[2], parametrosNumericos[3], tipoAnimacion));//:3 xD
+            if(figura.getClass().getSimpleName().equals("Circulo")){
+                Circulo circulo = (Circulo) figura;
+                figura.establecerAnimacion(new Animacion(circulo.posicionInicialX+(circulo.darRadio()*2), circulo.posicionInicialY+(circulo.darRadio()*2),
+                        parametrosNumericos[0]-(circulo.darPosicionInicialX()+(circulo.darRadio()*2)),
+                        (parametrosNumericos[1]-(circulo.darPosicionIncialY()+(circulo.darRadio()*2))), tipoAnimacion));
+            }
+            else if(figura.getClass().getSimpleName().equals("Cuadrado") || figura.getClass().getSimpleName().equals("Rectangulo") || figura.getClass().getSimpleName().equals("Poligono")){
+                Poligono poligono = (Poligono) figura;
+                figura.establecerAnimacion(new Animacion(poligono.darPosicionInicialX()+poligono.ancho,
+                        poligono.darPosicionIncialY()+poligono.darLargo(),parametrosNumericos[0]-(poligono.darPosicionInicialX()+poligono.darAncho()) ,
+                        (parametrosNumericos[1]-(poligono.darPosicionIncialY()+poligono.darLargo())), tipoAnimacion));
+            }else if(figura.getClass().getSimpleName().equals("Linea")){//bueno, con un else bastaba xD
+                Linea linea = (Linea) figura;
+                figura.establecerAnimacion(new Animacion((int)linea.darPosicionFinalX(), (int)linea.darPosicionFinalY(),parametrosNumericos[0]-linea.darPosicionFinalX(),
+                        parametrosNumericos[1]-linea.darPosicionFinalY(), tipoAnimacion));
+            }
         }
 
         operador.reestablecerValores();//pues debe dejarse limpio todo sea que haya salido bien o no, para trabajar con lo que sigue xD
@@ -86,10 +100,13 @@ public class RecolectorFiguras {
             }
             color = null;
             seCreoCorrectamenteLaFigura =  true;
+            operador.reestablecerValores();//puesto que debe desecharse todo lo hecho hasta el momento, halla salido bien o no, para hacer nuevamente el proceso pero con la figura nueva... xD
+            return;
         }
         color = null;//esto lo coloco por el hecho de que puede que haya salido algo mal en los parám, por lo cual esta var no tendría que tener algo, pues si es así, se tomaría como color el de la figura anterior aunque en realdidad se haya fallado al momento de revisar lo recibido co lo esperado con respecto al color de la figura en la prod de los parám...
         seCreoCorrectamenteLaFigura = false;
         operador.reestablecerValores();//puesto que debe desecharse todo lo hecho hasta el momento, halla salido bien o no, para hacer nuevamente el proceso pero con la figura nueva... xD
+        return;
     }
 
     public void establecerColor(String elColor){

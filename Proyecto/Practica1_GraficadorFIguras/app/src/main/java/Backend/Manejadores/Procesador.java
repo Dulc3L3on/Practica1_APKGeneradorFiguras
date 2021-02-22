@@ -4,8 +4,12 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Path;
 import android.graphics.Rect;
+import android.os.Build;
 import android.view.View;
+
+import androidx.annotation.RequiresApi;
 
 import Backend.Entidades.Figuras.Circulo;
 import Backend.Entidades.Figuras.Cuadrado;
@@ -71,24 +75,46 @@ public class Procesador {
             return null;
     }
 
-    public void procesarSolicitudAnimar(Figura figura, View vista){//pendiente
+    /*pero no se si llegue a afectar el primer caso, es decir a no ejecutarlo si es que no posee esa versión... esperaría que no, de todos modos le puse al cuerpo de la curva el if... xD*/
+    public void procesarSolicitudAnimar(boolean esElPrimero, Figura figura, View vista){//pendiente
         switch(figura.darAnimacion().darTipoAnimacion()){
             case "linea":
-                ObjectAnimator objetoAnimadorEnX = ObjectAnimator.ofFloat(vista, "x", (float) figura.darAnimacion().darPuntoFinalX());
+                ObjectAnimator objetoAnimadorEnX = ObjectAnimator.ofFloat(vista, "x", (float) figura.darAnimacion().darDesplazamientoEnX());
                 objetoAnimadorEnX.setDuration(1500);
 
-                ObjectAnimator objetoAnimadorEnY = ObjectAnimator.ofFloat(vista, "y", (float) figura.darAnimacion().darPuntoFinalY());
+                ObjectAnimator objetoAnimadorEnY = ObjectAnimator.ofFloat(vista, "y", (float) figura.darAnimacion().darDesplazamientoEnY());
                 objetoAnimadorEnY.setDuration(1500);
 
-                AnimatorSet setAnimadorX = new AnimatorSet();
-                setAnimadorX.playTogether(objetoAnimadorEnX, objetoAnimadorEnY);
-                setAnimadorX.start();//Así es posible moverlo en cualquier tipo de línea...
+                AnimatorSet setAnimadorXY = new AnimatorSet();
+                setAnimadorXY.playTogether(objetoAnimadorEnX, objetoAnimadorEnY);
+
+                if(!esElPrimero){
+                    objetoAnimadorEnX.setStartDelay(1500);
+                    objetoAnimadorEnY.setStartDelay(1500);//Con tal de que se ejecuten, uno tras otro xD
+                }
+                setAnimadorXY.start();//Así es posible moverlo en cualquier tipo de línea... si te da tiempo, harás que el lienzo regrese a su posición inicial, pero de una sola vez ó haciendo un erverse en la animación y paraa de una vez ahí... [esto quiere decir que tendría que hacerlo al nada más terminar la animación, pero para que se mire bien, debería colocarle un retraso y luego aplicar el reverse xD, pero busca si esta propiead puede usarse en ellistener o es algo que debe definirse al principio es decir antes de empezar[aunque esto último lo dudo xD]...
             break;
             case "curva":
-
-
-            break;
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    animarCurva(esElPrimero, figura, vista);//no se si el comentario hace que se descargue algo para que siempre funcione, y de ser así, entoces este if haría que nos e exe dicha axn... pero si no es así, entonces está bien porque en ado caso que el comentario evite se exe cuando haga fala este requisito, por solo rodear al método, solo este haría que no se exe xD... tal y como debe ser xD
+                }
+                break;
         }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    private void animarCurva(boolean esElPrimero, Figura figura, View vista){
+        Path path = new Path();
+        path.arcTo((float) figura.darAnimacion().darPuntoPartidaX(),(float) figura.darAnimacion().darPuntoPartidaY(),(float) figura.animacion.darDesplazamientoEnX(),(float) figura.animacion.darDesplazamientoEnY(), 270f, -180f, true);//vamos a ver como funcionan esos valores de ángulos, si app a todos de manera "estática" entonces deberás colocar if's, si el desplY <0 entonces  0, 90 si es > 0 -> 0, -90, si desplX >0 0, -180, si x <0 -> 0,180... pero solo podrías colocar un par porque puede que venga las opciones mezcladas... fmmm mejor prueba xD
+        ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(vista, View.X, View.Y, path);//aquí da la excep...
+        objectAnimator.setDuration(1500);
+        AnimatorSet setAnimadorCurvo = new AnimatorSet();
+        setAnimadorCurvo.play(objectAnimator);
+
+        if(!esElPrimero){
+            objectAnimator.setStartDelay(1500);
+        }
+        setAnimadorCurvo.start();
     }
 
     private void procesarPoligono(Poligono poligono, Canvas canvas, Paint pintor){
@@ -105,10 +131,7 @@ public class Procesador {
         }else{//pues no hay nada más que hacer xD
             canvas.drawPoint((float)puntosAUnir[0][0], (float)puntosAUnir[0][0], pintor);
         }
-
-
         //Path trazo = new Path();
-
         /*trazo.moveTo((float) puntosAUnir[0][0], (float) puntosAUnir[0][1]);//para que almenos si genere bien la figura... :1 :c xD
         for (int puntoActual = 1; puntoActual < puntosAUnir.length; puntoActual++){
             trazo.lineTo((float) puntosAUnir[puntoActual][0], (float) puntosAUnir[puntoActual][1]);//si no sale, es porque hay que hacer de primero el moveTo, para que se posicione como primer punto, entonces al ser así según lo queestoy pensando ahorita, debería comenzar en el for en el 2do punto... pero en ese caso el close, se haría la punto del moveTo [orque aunque se haya hecho con otro método, de todos modos es el primer punto] o con el primero en el que se usó el lineTo? fmmm, a ver se ha dicho xD
@@ -155,7 +178,6 @@ public class Procesador {
                 puntoMasAlaDerYAbajo[1] = verticeY;
             }
         }
-
     }
 
     private double[][] ajustarALargoReal(double angulo, double verticesPoligono[][], double ancho, double largo, int verticeActual){//aah creo que al final no era útil el centro xD

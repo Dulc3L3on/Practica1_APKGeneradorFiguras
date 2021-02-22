@@ -36,7 +36,7 @@ public class actividadFiguras extends AppCompatActivity {
 
         //se recibe el contenedor en el que se mostrarán los datos, en este caso sería un layout que permita libertad en colocación...
         ConstraintLayout capa = findViewById(R.id.actividad_figuras);
-        anadirLienzosParaFiguras(capa, colaDeFiguras);//Se añaden las figuras en un lienzo individual para permitir la animación...
+        anadirLienzosParaFiguras(capa);//Se añaden las figuras en un lienzo individual para permitir la animación...
 
         botonAnimar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,7 +55,7 @@ public class actividadFiguras extends AppCompatActivity {
 
     }
 
-    private void anadirLienzosParaFiguras(ConstraintLayout capa, Cola<Figura> colaDeFiguras){
+    private void anadirLienzosParaFiguras(ConstraintLayout capa){
         for (int figuraActual = 0; figuraActual <colaDeFiguras.darTamanio(); figuraActual++){
             Figura figura = colaDeFiguras.darYEncolarPrimerElemnento();
             LienzoFiguras lienzo = new LienzoFiguras(this, figura);
@@ -70,7 +70,7 @@ public class actividadFiguras extends AppCompatActivity {
 
             if(figura.darAnimacion()!=null){
                 LienzoFiguras lienzo = findViewById(figuraActual);
-                lienzo.animar();
+                lienzo.animar((figuraActual==0)?true:false);
             }
         }
     }

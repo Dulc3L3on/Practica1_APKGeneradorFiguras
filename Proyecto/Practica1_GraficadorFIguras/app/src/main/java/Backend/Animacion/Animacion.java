@@ -3,19 +3,20 @@ package Backend.Animacion;
 import java.io.Serializable;
 
 public class Animacion implements Serializable {
-    private final double puntoInicialX;
-    private final double puntoInicialY;
-    private final double puntoFinalX;
-    private final double puntoFinalY;
-    private final String tipo;
+    private double puntoInicialX;
+    private double puntoInicialY;
+    /*private final double puntoFinalX;
+    private final double puntoFinalY;*/
+    private double desplazamientoEnX;
+    private double desplazamientoEnY;
 
-    public Animacion(double puntoPartidaX, double puntoPartidaY, double puntoDestinoX,
-                     double puntoDestinoY, String tipoAnimacion){
+    private String tipo;
 
-        puntoInicialX = puntoPartidaX;
-        puntoInicialY = puntoPartidaY;
-        puntoFinalX = puntoDestinoX;
-        puntoFinalY = puntoDestinoY;
+    public Animacion(double elPuntoInicialX, double elPuntoInicialY, double elDesplazamientoEnX, double elDesplazamientoEnY, String tipoAnimacion){//en realidad los punto siniciales son los puntos finales del contorno del dibujo xD
+        puntoInicialX = elPuntoInicialX;
+        puntoInicialY = elDesplazamientoEnY;
+        desplazamientoEnX = elDesplazamientoEnX;
+        desplazamientoEnY = elDesplazamientoEnY;
         tipo = tipoAnimacion;
     }
 
@@ -27,12 +28,20 @@ public class Animacion implements Serializable {
         return puntoInicialY;
     }
 
-    public double darPuntoFinalX(){
+    /*public double darPuntoFinalX(){
         return puntoFinalX;
     }
 
     public double darPuntoFinalY(){
         return puntoInicialY;
+    }*/
+
+    public double darDesplazamientoEnX(){
+        return desplazamientoEnX;
+    }
+
+    public double darDesplazamientoEnY(){
+        return desplazamientoEnY;
     }
 
     public String darTipoAnimacion(){

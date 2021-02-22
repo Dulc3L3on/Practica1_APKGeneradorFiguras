@@ -5,4 +5,29 @@
     android:id="@+id/lienzo_reportes"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".lienzoReportes" />
+    tools:context=".lienzoReportes" >
+
+    <TableLayout
+        android:id="@+id/table_Reportes"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteX="202dp"
+        tools:layout_editor_absoluteY="137dp">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </TableLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

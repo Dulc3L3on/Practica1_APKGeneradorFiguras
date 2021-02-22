@@ -3,7 +3,7 @@ package Backend.EstructurasDeDatos;
 import java.io.Serializable;
 
 public class ListaEnlazada <E> implements Serializable {
-    private String nombre;
+    private String nombre ="";//para que no hallan problemas con un null pointer xD
     private int tamanio = 0;
     private Nodo<E> primerNodo;
     private Nodo<E> ultimoNodo;
