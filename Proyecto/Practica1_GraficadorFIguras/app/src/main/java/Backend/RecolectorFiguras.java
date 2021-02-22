@@ -72,13 +72,13 @@ public class RecolectorFiguras {
                     colaDeFiguras.encolar(new Rectangulo(parametrosNumericos[0], parametrosNumericos[1], parametrosNumericos[2],
                             parametrosNumericos[3], manejadorColores.darColorCorrespondiente(color)));
                     break;
-                case "poligono":
-                    colaDeFiguras.encolar(new Poligono(parametrosNumericos[0], parametrosNumericos[1], parametrosNumericos[2],
-                            parametrosNumericos[3], parametrosNumericos[4], manejadorColores.darColorCorrespondiente(color)));
-                    break;
                 case "linea":
                     colaDeFiguras.encolar(new Linea(parametrosNumericos[0], parametrosNumericos[1], parametrosNumericos[2],
                             parametrosNumericos[3], manejadorColores.darColorCorrespondiente(color)));
+                    break;
+                case "poligono":
+                    colaDeFiguras.encolar(new Poligono(parametrosNumericos[0], parametrosNumericos[1], parametrosNumericos[2],
+                            parametrosNumericos[3], parametrosNumericos[4], manejadorColores.darColorCorrespondiente(color)));
                     break;
                 default:
                     //jamás nunca se entrará aquí xD

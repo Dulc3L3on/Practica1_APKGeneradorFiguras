@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
             Intent nuevoIntento = new Intent(this, actividadFiguras.class);//El paquete y la clase en la que se encuentra la actvidad [o pantalla] nueva
             Bundle nuevoPaqueteDatos = new Bundle();
 
-            nuevoPaqueteDatos.putSerializable("pilaDeFiguras", colaDeFiguras);//este método es similar al del request, en el qe se le enviaba el id con el que se iba a emplear el dato envuado en el otro parámetro xD, solo que esn este caso, requiere de un obj más en este caso intent para hacer la trancisión, que sería lo eqquivalente a la redirección en JSP's xD
+            nuevoPaqueteDatos.putSerializable("colaDeFiguras", colaDeFiguras);//este método es similar al del request, en el qe se le enviaba el id con el que se iba a emplear el dato envuado en el otro parámetro xD, solo que esn este caso, requiere de un obj más en este caso intent para hacer la trancisión, que sería lo eqquivalente a la redirección en JSP's xD
             nuevoPaqueteDatos.putSerializable("listadoReportes", listadoDeReportes);//si da errores es porque estas clases deben implementar a Serializable...
 
             nuevoIntento.putExtras(nuevoPaqueteDatos);

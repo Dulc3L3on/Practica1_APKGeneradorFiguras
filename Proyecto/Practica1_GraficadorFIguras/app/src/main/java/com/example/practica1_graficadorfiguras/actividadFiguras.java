@@ -36,13 +36,13 @@ public class actividadFiguras extends AppCompatActivity {
 
         //se recibe el contenedor en el que se mostrarán los datos, en este caso sería un layout que permita libertad en colocación...
         ConstraintLayout capa = findViewById(R.id.actividad_figuras);
-        LienzoFiguras lienzo = new LienzoFiguras(this, colaDeFiguras);
-        capa.addView(lienzo);//se agrega la pantalla en la que se mostrarán las figuras... sería bonito que el fondo fuera cuadriculado xD
+        anadirLienzosParaFiguras(capa, colaDeFiguras);//Se añaden las figuras en un lienzo individual para permitir la animación...
 
         botonAnimar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View vista) {
                 //se llama al método correspondiente del procesador
+                llamarAnimacion();//se hace la llamada desde aquí por el hecho de que ahora cada figura tienen su propio lienzo...
             }
         });
 
@@ -55,13 +55,32 @@ public class actividadFiguras extends AppCompatActivity {
 
     }
 
+    private void anadirLienzosParaFiguras(ConstraintLayout capa, Cola<Figura> colaDeFiguras){
+        for (int figuraActual = 0; figuraActual <colaDeFiguras.darTamanio(); figuraActual++){
+            Figura figura = colaDeFiguras.darYEncolarPrimerElemnento();
+            LienzoFiguras lienzo = new LienzoFiguras(this, figura);
+            lienzo.setId(figuraActual);
+            capa.addView(lienzo);//se agrega la pantalla en la que se mostrarán las figuras... sería bonito que el fondo fuera cuadriculado xD
+        }
+    }
+
+    private void llamarAnimacion(){
+        for (int figuraActual = 0; figuraActual<colaDeFiguras.darTamanio(); figuraActual++){
+            Figura figura = colaDeFiguras.darYEncolarPrimerElemnento();
+
+            if(figura.darAnimacion()!=null){
+                LienzoFiguras lienzo = findViewById(figuraActual);
+                lienzo.animar();
+            }
+        }
+    }
+
     private void recibirPilaYReportes() throws NoSuchAlgorithmException {
         Bundle paqueteDatos = getIntent().getExtras();
 
         if(paqueteDatos!=null){//pero en este caso, siempre será así porque solo se compila si había mas de alguna texto, de lo contrario no xD...aunque quizá sea util por la existencia de las flechita para regresar que todos los tel traen...
-            colaDeFiguras = (Cola<Figura>) paqueteDatos.getSerializable("pilaDeFiguras");
+            colaDeFiguras = (Cola<Figura>) paqueteDatos.getSerializable("colaDeFiguras");
             listadoDeListadoDeReportes = (ListaEnlazada<ListaEnlazada<Reporte>>) paqueteDatos.getSerializable("listadoReportes");//Esta será enviada a otra pantalla, de manera similar a como se hizo para enviar estos datos aquí... solo que en este caso,sucederá al preionar el btn "ver Reportes" o solo Reportes xD
-
         }
 
     }
